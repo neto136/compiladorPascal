@@ -15,12 +15,18 @@ package compiladores;
 public class LexicoPascal extends TrataArquivos{
     private String arquivo, programa, tabela;
     private int qtdeLinhas;
+    // Expressões regulares
     // Variáveis de classe (static) e que não serão modificadas (final)
-    private static final String erLetras = "";
-    private static final String erNums = "";
-    private static final String erDelim = ".,:;()";
-    private static final String erReserv = "\\b(program|var|integer|real|boolean|procedure|begin|end|if|then|else"
-            + "while|do|not)\\b";
+    private static final String erLetras = "[a-zA-Z]";
+    private static final String erNums = "[0-9]";
+    private static final String erIdent = "[\\w]"; //[a-zA-Z_0-9]
+    private static final String erDelim = "[.,:;()]";
+    private static final String erAtrib = ":=";
+    private static final String erOpRel = "[=><]|<=|>=|<>";
+    private static final String erOpAdit = "[+-]|or|OR";
+    private static final String erOpMult = "[*/]|and|AND";
+    // Lembrar de usar: Pattern.compile(erReserv, Pattern.CASE_INSENSITIVE);
+    private static final String erReserv = "program|var|integer|real|boolean|procedure|begin|end|if|then|while|do|not";
     
     
     
