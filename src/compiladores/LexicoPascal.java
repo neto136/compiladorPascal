@@ -23,6 +23,7 @@ public class LexicoPascal extends TrataArquivos{
             + "while|do|not)\\b";
     
     
+    
    public LexicoPascal() {
        arquivo = null;
        programa = null;
