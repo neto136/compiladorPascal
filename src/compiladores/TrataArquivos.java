@@ -12,6 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -63,13 +66,16 @@ public class TrataArquivos{
     */
     public void SalvaArquivo(String tabela){
         File arquivo = new File("tabela.txt");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date data = new Date();
         
         try {
             FileWriter filewriter = new FileWriter(arquivo, true); // Parâmetro true permite escrever em arquivo existente sem recriá-lo
             BufferedWriter bufwriter = new BufferedWriter(filewriter);
             
+            bufwriter.write(dateFormat.format(data));
             bufwriter.write("======================================" + System.lineSeparator());
-            bufwriter.write("TOKEN\tCLASSIFICAÇÃO\tLINHA" + System.lineSeparator());
+            bufwriter.write("TOKEN\t\tCLASSIFICAÇÃO\t\tLINHA" + System.lineSeparator());
             bufwriter.write("======================================" + System.lineSeparator());
             bufwriter.write(tabela);
             bufwriter.write(System.lineSeparator());
