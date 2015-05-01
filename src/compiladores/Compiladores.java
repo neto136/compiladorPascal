@@ -15,13 +15,10 @@ public class Compiladores {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String arquivo, programa;
-        TrataArquivos tratador = new TrataArquivos();
-        
-        programa = tratador.LeArquivo(args[0]);
-        tratador.SalvaArquivo(programa);
-        
-        System.out.print(programa);
+        System.out.println(args[0]);
+        LexicoPascal lexico = new LexicoPascal(args[0]);
+
+        lexico.Compila();
     }
     
 }

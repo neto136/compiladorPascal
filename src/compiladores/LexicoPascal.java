@@ -47,13 +47,6 @@ public class LexicoPascal extends TrataArquivos{
     
     
     
-   public LexicoPascal() {
-       arquivo = null;
-       programa = null;
-       tabela = "";
-       qtdeLinhas = 1;
-   }
-   
    public LexicoPascal(String arquivo) {
        this.arquivo = arquivo;
        programa = null;
@@ -78,6 +71,10 @@ public class LexicoPascal extends TrataArquivos{
    }
    
    private void lePrograma(){
+       if (arquivo == null) {
+           System.out.println("Não foi especificado um programa para compilação.");
+           return;
+       }
        programa = LeArquivo(arquivo);
    }
    
@@ -115,7 +112,7 @@ public class LexicoPascal extends TrataArquivos{
            else if ( Character.toString(programa.charAt(index)).matches(erComentAb) ) {
                boolean fechou = false;
                for (int i = index+1; index < programa.length()-1; i++) {
-                   if ( Character.toString(programa.charAt(index)).matches(erComentFe) ) {
+                   if ( Character.toString(programa.charAt(i)).matches(erComentFe) ) {
                        fechou = true;
                        index = i;     // Índice de varredura do programa deve ir para caractere seguinte ao fecha-comentário
                        break;
@@ -139,9 +136,9 @@ public class LexicoPascal extends TrataArquivos{
                boolean erroExponential = false;
                
                for (int i = index+1; index < programa.length()-1; i++) {
-                   if ( Character.toString(programa.charAt(index)).matches(erNums) )
+                   if ( Character.toString(programa.charAt(i)).matches(erNums) )
                        continue;
-                   else if ( Character.toString(programa.charAt(index)).matches("[.]") ) {
+                   else if ( Character.toString(programa.charAt(i)).matches("[.]") ) {
                        if (tipo.equals(txNumReal)) {    // Se encontrar dois pontos, para
                            dado = programa.substring(index, i);
                            index = i-1;     // Compensa o i++ do laço externo
@@ -149,17 +146,17 @@ public class LexicoPascal extends TrataArquivos{
                        }
                        tipo = txNumReal;
                        continue;
-                   } else if ( Character.toString(programa.charAt(index)).matches("[eE]") ) {
+                   } else if ( Character.toString(programa.charAt(i)).matches("[eE]") ) {
                        if (exponential) {       // Se encontrar dois expoenciais, para
                            dado = programa.substring(index, i);
                            index = i-1;     // Compensa o i++ do laço externo
                            break;
                        }
                        
-                       if ( (Character.toString(programa.charAt(index+1)).matches(erNums)) ) {
+                       if ( (Character.toString(programa.charAt(i+1)).matches(erNums)) ) {
                            tipo = txNumReal;
                            exponential = true;
-                       } else if ( (Character.toString(programa.charAt(index+1)).matches("[+-]")) && (Character.toString(programa.charAt(index+2)).matches(erNums)) ) {
+                       } else if ( (Character.toString(programa.charAt(i+1)).matches("[+-]")) && (Character.toString(programa.charAt(i+2)).matches(erNums)) ) {
                            i++;
                            tipo = txNumReal;
                            exponential = true;
@@ -194,22 +191,22 @@ public class LexicoPascal extends TrataArquivos{
                if ( (Character.toString(programa.charAt(index+1)).matches(erNums)) ) {
                    
                    for (int i = index+1; index < programa.length()-1; i++) {
-                        if ( Character.toString(programa.charAt(index)).matches(erNums) )
+                        if ( Character.toString(programa.charAt(i)).matches(erNums) )
                             continue;
-                        else if ( Character.toString(programa.charAt(index)).matches("[.]") ) {  // Se encontrar dois pontos, para
+                        else if ( Character.toString(programa.charAt(i)).matches("[.]") ) {  // Se encontrar dois pontos, para
                             dado = programa.substring(index, i);
                             index = i-1;     // Compensa o i++ do laço externo
                             break;
-                        } else if ( Character.toString(programa.charAt(index)).matches("[eE]") ) {
+                        } else if ( Character.toString(programa.charAt(i)).matches("[eE]") ) {
                             if (exponential) {       // Se encontrar dois expoenciais, para
                                 dado = programa.substring(index, i);
                                 index = i-1;     // Compensa o i++ do laço externo
                                 break;
                             }
 
-                            if ( (Character.toString(programa.charAt(index+1)).matches(erNums)) ) {
+                            if ( (Character.toString(programa.charAt(i+1)).matches(erNums)) ) {
                                 exponential = true;
-                            } else if ( (Character.toString(programa.charAt(index+1)).matches("[+-]")) && (Character.toString(programa.charAt(index+2)).matches(erNums)) ) {
+                            } else if ( (Character.toString(programa.charAt(i+1)).matches("[+-]")) && (Character.toString(programa.charAt(i+2)).matches(erNums)) ) {
                                 i++;
                                 exponential = true;
                             } else {
@@ -243,20 +240,21 @@ public class LexicoPascal extends TrataArquivos{
            // Se encontrar letras, verifica até onde é válido e considera como identificador.
            // Se estiver dentro da lista de palavras-reservadas, salva-o como tal.
            else if ( Character.toString(programa.charAt(index)).matches(erLetras) ) {
-               String tipo = txIdent;
+               String tipo = txIdent + "\t\t";  // Nivelamento de tabs
                String dado = Character.toString(programa.charAt(index));
 
                for (int i = index+1; index < programa.length()-1; i++) {
-                   if ( !Character.toString(programa.charAt(index)).matches(erIdent) ) {
+                   String charac = Character.toString(programa.charAt(i));
+                   if ( !Character.toString(programa.charAt(i)).matches(erIdent) ) {
                        dado = programa.substring(index, i);
                        index = i-1;     // Compensa o i++ do laço externo
                        break;
                    }
                }
                if (dado.matches(erReserv))
-                   tipo = txReserv;
+                   tipo = txReserv + "\t";      // Nivelamento de tabs
                
-               tabela = tabela.concat(dado + "\t\t" + tipo + "\t\t" + qtdeLinhas + System.lineSeparator());
+               tabela = tabela.concat(dado + "\t\t" + tipo + qtdeLinhas + System.lineSeparator());
                continue;
            }
            
@@ -306,7 +304,7 @@ public class LexicoPascal extends TrataArquivos{
        }
        
        
-       
+       SalvaArquivo(tabela);
        return tabela;
    }
     
