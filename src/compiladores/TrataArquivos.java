@@ -17,7 +17,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
+ * Classe TrataArquivos para realizar a interface de tratamento de arquivos.
+ * Seus métodos servem para ler um arquivo passado como argumento, retornando a String
+ * e para salvar em arquivo uma String passada como parâmetro (ambos tratando os possíveis erros).
+ * <p>Adaptada para uso com classe de Analisador Léxico de programas em Pascal.
+ * 
+ * @see FileReader
+ * @see FileWriter
+ * @see BufferedReader
+ * @see BufferedWriter
  * @author Neto
  */
 public class TrataArquivos{
