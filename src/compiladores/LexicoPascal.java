@@ -92,7 +92,8 @@ public class LexicoPascal extends TrataArquivos{
           Não foi usada a classe Tokenizer intencinoalmente para que ainda seja possível realizar alguma operação
           sobre espaços em branco e caracteres especiais, caso necessário futuramente.
        */
-       for (int index = 0; index < programa.length()-1; index++) {
+       for (int index = 0; index < programa.length(); index++) {
+           String charAtual = Character.toString(programa.charAt(index));
            
            //==========================================================================
            // Caso encontre quebra de linha, incrementar a contagem e ir para próximo caractere
@@ -111,7 +112,9 @@ public class LexicoPascal extends TrataArquivos{
            // Caso encontre abertura de comentário "{" deve procurar pelo seu fechamento "}" e prosseguir, alertando caso não feche.
            else if ( Character.toString(programa.charAt(index)).matches(erComentAb) ) {
                boolean fechou = false;
-               for (int i = index+1; index < programa.length()-1; i++) {
+               int tamanho = programa.length();
+               for (int i = index+1; i < programa.length(); i++) {
+                   char carac = programa.charAt(i);
                    if ( Character.toString(programa.charAt(i)).matches(erComentFe) ) {
                        fechou = true;
                        index = i;     // Índice de varredura do programa deve ir para caractere seguinte ao fecha-comentário
@@ -135,7 +138,7 @@ public class LexicoPascal extends TrataArquivos{
                boolean exponential = false;
                boolean erroExponential = false;
                
-               for (int i = index+1; index < programa.length()-1; i++) {
+               for (int i = index+1; i < programa.length(); i++) {
                    if ( Character.toString(programa.charAt(i)).matches(erNums) )
                        continue;
                    else if ( Character.toString(programa.charAt(i)).matches("[.]") ) {
@@ -173,7 +176,7 @@ public class LexicoPascal extends TrataArquivos{
                    }
                }
                if (erroExponential) {
-                   System.out.println("Erro de exponencial. Linha: " + qtdeLinhas);
+                   System.out.println("Erro de notação ciêntífica no número real. Linha: " + qtdeLinhas);
                    break;
                }
                
@@ -190,7 +193,7 @@ public class LexicoPascal extends TrataArquivos{
                
                if ( (Character.toString(programa.charAt(index+1)).matches(erNums)) ) {
                    
-                   for (int i = index+1; index < programa.length()-1; i++) {
+                   for (int i = index+1; i < programa.length(); i++) {
                         if ( Character.toString(programa.charAt(i)).matches(erNums) )
                             continue;
                         else if ( Character.toString(programa.charAt(i)).matches("[.]") ) {  // Se encontrar dois pontos, para
@@ -243,7 +246,7 @@ public class LexicoPascal extends TrataArquivos{
                String tipo = txIdent + "\t\t";  // Nivelamento de tabs
                String dado = Character.toString(programa.charAt(index));
 
-               for (int i = index+1; index < programa.length()-1; i++) {
+               for (int i = index+1; i < programa.length(); i++) {
                    String charac = Character.toString(programa.charAt(i));
                    if ( !Character.toString(programa.charAt(i)).matches(erIdent) ) {
                        dado = programa.substring(index, i);
@@ -261,44 +264,48 @@ public class LexicoPascal extends TrataArquivos{
            //==========================================================================
            // Se encontrar um delimitador, salva na tabela e passa para o próximo caractere
            else if ( Character.toString(programa.charAt(index)).matches(erDelim) ) {
-               if ( Character.toString(programa.charAt(index)).matches("[:]") && Character.toString(programa.charAt(index+1)).matches("[=]") )
+               if ( Character.toString(programa.charAt(index)).matches("[:]") && Character.toString(programa.charAt(index+1)).matches("[=]") ) {
                    tabela = tabela.concat(":=" + "\t\t" + txAtrib + "\t\t" + qtdeLinhas + System.lineSeparator());
-               else
+                   index++;     // É ':=' então próxima iteração deve ir para caractere seguinte ao '='
+               } else {
                    tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txDelimit + "\t\t" + qtdeLinhas + System.lineSeparator());
+               }
                continue;
            }
            
            //==========================================================================
            // Se encontrar um operador aditivo, salva na tabela e passa para o próximo caractere
            else if ( Character.toString(programa.charAt(index)).matches(erOpAdit) ) {
-               tabela = tabela.concat(":=" + "\t\t" + txOpAdit + "\t\t" + qtdeLinhas + System.lineSeparator());
+               tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txOpAdit + "\t" + qtdeLinhas + System.lineSeparator());
                continue;
            }
            
            //==========================================================================
            // Se encontrar um operador multiplicativo, salva na tabela e passa para o próximo caractere
            else if ( Character.toString(programa.charAt(index)).matches(erOpMult) ) {
-               tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txOpMul + "\t\t" + qtdeLinhas + System.lineSeparator());
+               tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txOpMul + "\t" + qtdeLinhas + System.lineSeparator());
                continue;
            }
            
            //==========================================================================
            // Se encontrar um operador relacional, salva na tabela e passa para o próximo caractere
            else if ( Character.toString(programa.charAt(index)).matches(erOpRel) ) {
-               if ( Character.toString(programa.charAt(index)).matches("[=]") )
-                   tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txOpRel + "\t\t" + qtdeLinhas + System.lineSeparator());
-               else if ( Character.toString(programa.charAt(index+1)).matches("[=]") )
-                   tabela = tabela.concat(Character.toString(programa.charAt(index)) + Character.toString(programa.charAt(index+1)) + "\t\t" + txOpRel + "\t\t" + qtdeLinhas + System.lineSeparator());
-               else if ( Character.toString(programa.charAt(index)).matches("[<]") && Character.toString(programa.charAt(index+1)).matches("[>]") )
-                   tabela = tabela.concat("<>" + "\t\t" + txOpRel + "\t\t" + qtdeLinhas + System.lineSeparator());
-               else
-                   tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txOpRel + "\t\t" + qtdeLinhas + System.lineSeparator());
+               if ( Character.toString(programa.charAt(index)).matches("[=]") ) {
+                   tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txOpRel + "\t" + qtdeLinhas + System.lineSeparator());
+               } else if ( Character.toString(programa.charAt(index+1)).matches("[=]") ) {
+                   tabela = tabela.concat(Character.toString(programa.charAt(index)) + Character.toString(programa.charAt(index+1)) + "\t\t" + txOpRel + "\t" + qtdeLinhas + System.lineSeparator());
+                   index++;     // É '<=' ou '<=' então próxima iteração deve ir para caractere seguinte ao '='
+               } else if ( Character.toString(programa.charAt(index)).matches("[<]") && Character.toString(programa.charAt(index+1)).matches("[>]") ) {
+                   tabela = tabela.concat("<>" + "\t\t" + txOpRel + "\t" + qtdeLinhas + System.lineSeparator());
+                   index++;     // É '<>' então próxima iteração deve ir para caractere seguinte ao '>'
+               } else
+                   tabela = tabela.concat(Character.toString(programa.charAt(index)) + "\t\t" + txOpRel + "\t" + qtdeLinhas + System.lineSeparator());
                continue;
            }
            
            //==========================================================================
            else {
-               System.out.println("Caractere não pertencente a linguagem. Linha: " + qtdeLinhas);
+               System.out.println("Caractere não pertencente a linguagem. Caractere: \"" + Character.toString(programa.charAt(index)) + "\". " + "Linha: " + qtdeLinhas);
            }
            
        }

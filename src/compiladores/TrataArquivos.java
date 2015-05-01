@@ -65,7 +65,7 @@ public class TrataArquivos{
     *               seguindo o padrão "TOKEN CLASSIFICAÇÃO LINHA"
     */
     public void SalvaArquivo(String tabela){
-        File arquivo = new File("tabela.txt");
+        File arquivo = new File("TabelaLexico.txt");
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date data = new Date();
         
@@ -74,9 +74,9 @@ public class TrataArquivos{
             BufferedWriter bufwriter = new BufferedWriter(filewriter);
             
             bufwriter.write(dateFormat.format(data) + System.lineSeparator());
-            bufwriter.write("======================================" + System.lineSeparator());
+            bufwriter.write("===============================================" + System.lineSeparator());
             bufwriter.write("TOKEN\t\tCLASSIFICAÇÃO\t\tLINHA" + System.lineSeparator());
-            bufwriter.write("======================================" + System.lineSeparator());
+            bufwriter.write("===============================================" + System.lineSeparator());
             bufwriter.write(tabela);
             bufwriter.write(System.lineSeparator());
             
