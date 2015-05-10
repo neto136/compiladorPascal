@@ -17,6 +17,8 @@ begin		Palavra reservada	5
 valor1		Identificador		6
 :=		Atribuição		6
 180		Número inteiro		6
++		Operador aditivo	6
+valor2		Identificador		6
 ;		Delimitador		6
 end		Palavra reservada	7
 .		Delimitador		7

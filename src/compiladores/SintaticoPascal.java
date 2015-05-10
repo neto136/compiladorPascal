@@ -144,6 +144,8 @@ public class SintaticoPascal extends TrataArquivos{
                             if (ComandoComposto()) {
                                 if (!dados.getToken().equals("."))
                                     mensagem = "ERRO: delimitador final '.' esperado. Linha: " + dados.getLinha();
+                                else
+                                    mensagem = "Analisador Sintático: Programa compilado com sucesso.";
                             }
                         }
                     }
@@ -493,7 +495,21 @@ public class SintaticoPascal extends TrataArquivos{
             dados = iterator.next();
             if (dados.getToken().equals(":=")) {
                 dados = iterator.next();
-                return Expressao();
+/*                return Expressao();
+*/
+                if (Expressao()) {
+                    if (dados.getToken().equals(";")) {
+                        dados = iterator.next();
+                        return true;
+                    } else {
+                        mensagem = "ERRO: delimitador ';' esperado após atribuição. Linha: " + dados.getLinha();
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+/*
+*/
             } else if (dados.getToken().equals("(")) {  // Deve mandar o próprio parênteses, não o próximo token
                 return AtivacaoProcedimento();
             } else {
@@ -562,7 +578,7 @@ public class SintaticoPascal extends TrataArquivos{
             if (OpRelacional()) {
                 return ExpressaoSimples();
             } else {
-                return false;
+                return true;
             }
         } else {
             return false;
