@@ -7,7 +7,7 @@ package compiladores;
 
 /**
  * Compilador Léxico para compilação de programas escritos na linguagem de
- * programação PASCAL.
+ * programação PASCAL. É a primeira etapa da compilação.
  * <p> Projeto da cadeira de Construção de Compiladores na UFPB, período 2015.1
  * 
  * @author Neto

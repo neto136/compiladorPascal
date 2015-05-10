@@ -1,0 +1,1215 @@
+﻿2015/05/01 14:41:52
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 14:42:55
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+.		Delimitador		1
+
+2015/05/01 14:46:04
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 14:56:03
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+
+2015/05/01 14:56:27
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 14:58:45
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 14:58:54
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+
+2015/05/01 14:59:05
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 14:59:37
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10.		Número real		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:00:00
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10.1		Número real		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:00:28
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10.1		Número real		6
+.		Delimitador		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:01:22
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+
+2015/05/01 15:01:32
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10E6		Número real		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:03:00
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10E6		Número real		6
+:=		Operador aditivo		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:08:01
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10E6		Número real		6
+:=		Operador aditivo	6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:09:29
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10E6		Número real		6
+:=		Operador aditivo	6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:11:14
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10E6		Número real		6
++		Operador aditivo	6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:11:37
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10E6		Número real		6
+e		Identificador		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:12:23
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+
+2015/05/01 15:12:36
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10		Número inteiro		6
++		Operador aditivo	6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:12:56
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+
+2015/05/01 15:13:06
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10e-5		Número real		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:13:37
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+10.2e-5		Número real		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:14:08
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+.1		Número real		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:14:19
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
++		Operador aditivo	6
+1		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:14:51
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+-		Operador aditivo	6
+2		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:15:04
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+progr		Identificador		1
+am		Identificador		1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+-		Operador aditivo	6
+2		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:15:16
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+-		Operador aditivo	6
+2		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:15:38
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+-		Operador aditivo	6
+2		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:15:46
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor_1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+-		Operador aditivo	6
+2		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:16:21
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor_1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+2		Número inteiro		4
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+-		Operador aditivo	6
+2		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+2015/05/01 15:35:27
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+teste		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+valor_1		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+valor2		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+begin		Palavra reservada	5
+valor1		Identificador		6
+:=		Atribuição		6
+180		Número inteiro		6
+;		Delimitador		6
+end		Palavra reservada	7
+.		Delimitador		7
+
+
+
+
+2015/05/01 16:02:19
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+
+2015/05/01 16:02:59
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+Program		Palavra reservada	1
+aluno		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+nome		Identificador		3
+:		Delimitador		3
+string		Identificador		3
+;		Delimitador		3
+n1		Identificador		4
+,		Delimitador		4
+n2		Identificador		4
+,		Delimitador		4
+n3		Identificador		4
+,		Delimitador		4
+media		Identificador		4
+:		Delimitador		4
+real		Palavra reservada	4
+;		Delimitador		4
+f		Identificador		5
+:		Delimitador		5
+integer		Palavra reservada	5
+;		Delimitador		5
+Begin		Palavra reservada	6
+clrscr		Identificador		7
+;		Delimitador		7
+writeln		Identificador		8
+(		Delimitador		8
+Digite		Identificador		8
+os		Identificador		8
+dados		Identificador		8
+do		Palavra reservada	8
+aluno		Identificador		8
+)		Delimitador		8
+;		Delimitador		8
+write		Identificador		9
+(		Delimitador		9
+Nome		Identificador		9
+:		Delimitador		9
+)		Delimitador		9
+;		Delimitador		9
+readln		Identificador		10
+(		Delimitador		10
+nome		Identificador		10
+)		Delimitador		10
+;		Delimitador		10
+write		Identificador		11
+(		Delimitador		11
+3		Número inteiro		11
+notas		Identificador		11
+:		Delimitador		11
+)		Delimitador		11
+;		Delimitador		11
+readln		Identificador		12
+(		Delimitador		12
+n1		Identificador		12
+,		Delimitador		12
+n2		Identificador		12
+,		Delimitador		12
+n3		Identificador		12
+)		Delimitador		12
+;		Delimitador		12
+if		Palavra reservada	13
+(		Delimitador		13
+n1		Identificador		13
+<		Operador relacional	13
+0		Número inteiro		13
+)		Delimitador		13
+or		Identificador		13
+(		Delimitador		13
+n1		Identificador		13
+>		Operador relacional	13
+10		Número inteiro		13
+)		Delimitador		13
+or		Identificador		13
+(		Delimitador		13
+n2		Identificador		13
+<		Operador relacional	13
+0		Número inteiro		13
+)		Delimitador		13
+or		Identificador		13
+(		Delimitador		13
+n2		Identificador		13
+>		Operador relacional	13
+10		Número inteiro		13
+)		Delimitador		13
+or		Identificador		13
+(		Delimitador		13
+n3		Identificador		13
+<		Operador relacional	13
+0		Número inteiro		13
+)		Delimitador		13
+or		Identificador		13
+(		Delimitador		13
+n3		Identificador		13
+>		Operador relacional	13
+10		Número inteiro		13
+)		Delimitador		13
+then		Palavra reservada	13
+begin		Palavra reservada	14
+write		Identificador		15
+(		Delimitador		15
+Notas		Identificador		15
+inv		Identificador		15
+lidas		Identificador		15
+,		Delimitador		15
+digite		Identificador		15
+notas		Identificador		15
+de		Identificador		15
+0		Número inteiro		15
+a		Identificador		15
+10		Número inteiro		15
+)		Delimitador		15
+;		Delimitador		15
+readln		Identificador		16
+(		Delimitador		16
+n1		Identificador		16
+,		Delimitador		16
+n2		Identificador		16
+,		Delimitador		16
+n3		Identificador		16
+)		Delimitador		16
+;		Delimitador		16
+end		Palavra reservada	17
+;		Delimitador		17
+media		Identificador		18
+:=		Atribuição		18
+(		Delimitador		18
+n1		Identificador		18
++		Operador aditivo	18
+n2		Identificador		18
++		Operador aditivo	18
+n3		Identificador		18
+)		Delimitador		18
+/		Operador multiplicativo	18
+3		Número inteiro		18
+;		Delimitador		18
+write		Identificador		19
+(		Delimitador		19
+Quantidade		Identificador		19
+de		Identificador		19
+faltas		Identificador		19
+:		Delimitador		19
+)		Delimitador		19
+;		Delimitador		19
+readln		Identificador		20
+(		Delimitador		20
+f		Identificador		20
+)		Delimitador		20
+;		Delimitador		20
+if		Palavra reservada	21
+f		Identificador		21
+<		Operador relacional	21
+0		Número inteiro		21
+then		Palavra reservada	21
+begin		Palavra reservada	22
+write		Identificador		23
+(		Delimitador		23
+Faltas		Identificador		23
+inv		Identificador		23
+lidas		Identificador		23
+digite		Identificador		23
+um		Identificador		23
+n		Identificador		23
+mero		Identificador		23
+maior		Identificador		23
+ou		Identificador		23
+igual		Identificador		23
+a		Identificador		23
+0		Número inteiro		23
+)		Delimitador		23
+;		Delimitador		23
+readln		Identificador		24
+(		Delimitador		24
+f		Identificador		24
+)		Delimitador		24
+;		Delimitador		24
+end		Palavra reservada	25
+;		Delimitador		25
+write		Identificador		26
+(		Delimitador		26
+O		Identificador		26
+aluno		Identificador		26
+,		Delimitador		26
+nome		Identificador		26
+,		Delimitador		26
+est		Identificador		26
+)		Delimitador		26
+;		Delimitador		26
+if		Palavra reservada	27
+(		Delimitador		27
+media		Identificador		27
+>=		Operador relacional	27
+5		Número inteiro		27
+)		Delimitador		27
+and		Identificador		27
+(		Delimitador		27
+f		Identificador		27
+<		Operador relacional	27
+18		Número inteiro		27
+)		Delimitador		27
+then		Palavra reservada	27
+write		Identificador		27
+(		Delimitador		27
+aprovado		Identificador		27
+com		Identificador		27
+m		Identificador		27
+dia		Identificador		27
+:		Delimitador		27
+,		Delimitador		27
+media		Identificador		27
+:		Delimitador		27
+2		Número inteiro		27
+:		Delimitador		27
+2		Número inteiro		27
+)		Delimitador		27
+;		Delimitador		27
+if		Palavra reservada	28
+media		Identificador		28
+<		Operador relacional	28
+5		Número inteiro		28
+then		Palavra reservada	28
+write		Identificador		28
+(		Delimitador		28
+reprovado		Identificador		28
+por		Identificador		28
+m		Identificador		28
+dia		Identificador		28
+:		Delimitador		28
+,		Delimitador		28
+media		Identificador		28
+:		Delimitador		28
+2		Número inteiro		28
+:		Delimitador		28
+2		Número inteiro		28
+)		Delimitador		28
+;		Delimitador		28
+if		Palavra reservada	29
+f		Identificador		29
+>		Operador relacional	29
+17		Número inteiro		29
+then		Palavra reservada	29
+write		Identificador		29
+(		Delimitador		29
+reprovado		Identificador		29
+por		Identificador		29
+falta		Identificador		29
+:		Delimitador		29
+,		Delimitador		29
+f		Identificador		29
+:		Delimitador		29
+2		Número inteiro		29
+)		Delimitador		29
+;		Delimitador		29
+readkey		Identificador		30
+;		Delimitador		30
+End		Palavra reservada	31
+.		Delimitador		31
+
+2015/05/01 16:03:23
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+Program		Palavra reservada	1
+triangulo		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+l1		Identificador		3
+,		Delimitador		3
+l2		Identificador		3
+,		Delimitador		3
+l3		Identificador		3
+:		Delimitador		3
+integer		Palavra reservada	3
+;		Delimitador		3
+Begin		Palavra reservada	4
+clrscr		Identificador		5
+;		Delimitador		5
+writeln		Identificador		6
+(		Delimitador		6
+Digite		Identificador		6
+os		Identificador		6
+lados		Identificador		6
+do		Palavra reservada	6
+tri		Identificador		6
+ngulo		Identificador		6
+)		Delimitador		6
+;		Delimitador		6
+readln		Identificador		7
+(		Delimitador		7
+l1		Identificador		7
+,		Delimitador		7
+l2		Identificador		7
+,		Delimitador		7
+l3		Identificador		7
+)		Delimitador		7
+;		Delimitador		7
+if		Palavra reservada	8
+(		Delimitador		8
+l1		Identificador		8
+<		Operador relacional	8
+l2		Identificador		8
++		Operador aditivo	8
+l3		Identificador		8
+)		Delimitador		8
+and		Identificador		8
+(		Delimitador		8
+l2		Identificador		8
+<		Operador relacional	8
+l1		Identificador		8
++		Operador aditivo	8
+l3		Identificador		8
+)		Delimitador		8
+and		Identificador		8
+(		Delimitador		8
+l3		Identificador		8
+<		Operador relacional	8
+l1		Identificador		8
++		Operador aditivo	8
+l2		Identificador		8
+)		Delimitador		8
+then		Palavra reservada	8
+writeln		Identificador		9
+(		Delimitador		9
+Os		Identificador		9
+n		Identificador		9
+meros		Identificador		9
+formam		Identificador		9
+os		Identificador		9
+lados		Identificador		9
+de		Identificador		9
+um		Identificador		9
+tri		Identificador		9
+ngulo		Identificador		9
+)		Delimitador		9
+else		Identificador		10
+writeln		Identificador		10
+(		Delimitador		10
+Os		Identificador		10
+n		Identificador		10
+meros		Identificador		10
+n		Identificador		10
+o		Identificador		10
+formam		Identificador		10
+os		Identificador		10
+lados		Identificador		10
+de		Identificador		10
+um		Identificador		10
+tri		Identificador		10
+ngulo		Identificador		10
+)		Delimitador		10
+;		Delimitador		10
+readkey		Identificador		11
+;		Delimitador		11
+End		Palavra reservada	12
+.		Delimitador		12
+
+2015/05/01 16:03:41
+===============================================
+TOKEN		CLASSIFICAÇÃO		LINHA
+===============================================
+program		Palavra reservada	1
+exemplo		Identificador		1
+;		Delimitador		1
+var		Palavra reservada	2
+c		Identificador		2
+:		Delimitador		2
+char		Identificador		2
+;		Delimitador		2
+begin		Palavra reservada	3
+write		Identificador		4
+(		Delimitador		4
+Entre		Identificador		4
+com		Identificador		4
+um		Identificador		4
+caractere		Identificador		4
+:		Delimitador		4
+)		Delimitador		4
+;		Delimitador		4
+readln		Identificador		5
+(		Delimitador		5
+c		Identificador		5
+)		Delimitador		5
+;		Delimitador		5
+case		Identificador		6
+c		Identificador		6
+of		Identificador		6
+A		Identificador		7
+.		Delimitador		7
+.		Delimitador		7
+Z		Identificador		7
+,		Delimitador		7
+a		Identificador		7
+.		Delimitador		7
+.		Delimitador		7
+z		Identificador		7
+:		Delimitador		7
+writeln		Identificador		7
+(		Delimitador		7
+Caractere		Identificador		7
+lido		Identificador		7
+e		Identificador		7
+letra		Identificador		7
+.		Delimitador		7
+)		Delimitador		7
+;		Delimitador		7
+0		Número inteiro		8
+.		Delimitador		8
+.		Delimitador		8
+9		Número inteiro		8
+:		Delimitador		8
+begin		Palavra reservada	8
+writeln		Identificador		9
+(		Delimitador		9
+Caractere		Identificador		9
+lido		Identificador		9
+e		Identificador		9
+um		Identificador		9
+digito		Identificador		9
+)		Delimitador		9
+;		Delimitador		9
+writeln		Identificador		10
+(		Delimitador		10
+entre		Identificador		10
+0		Número inteiro		10
+e		Identificador		10
+9		Número inteiro		10
+)		Delimitador		10
+;		Delimitador		10
+end		Palavra reservada	11
+;		Delimitador		11
++		Operador aditivo	12
+,		Delimitador		12
+-		Operador aditivo	12
+,		Delimitador		12
+*		Operador multiplicativo	12
+,		Delimitador		12
+/		Operador multiplicativo	12
+:		Delimitador		12
+writeln		Identificador		12
+(		Delimitador		12
+Caractere		Identificador		12
+lido		Identificador		12
+e		Identificador		12
+um		Identificador		12
+operador		Identificador		12
+matematico		Identificador		12
+.		Delimitador		12
+)		Delimitador		12
+;		Delimitador		12
+else		Identificador		13
+writeln		Identificador		13
+(		Delimitador		13
+O		Identificador		13
+caractere		Identificador		13
+lido		Identificador		13
+nao		Identificador		13
+e		Identificador		13
+letra		Identificador		13
+,		Delimitador		13
+nem		Identificador		13
+digito		Identificador		13
+,		Delimitador		13
+)		Delimitador		13
+;		Delimitador		13
+writeln		Identificador		14
+(		Delimitador		14
+nem		Identificador		14
+operador		Identificador		14
+matematico		Identificador		14
+.		Delimitador		14
+)		Delimitador		14
+;		Delimitador		14
+end		Palavra reservada	15
+;		Delimitador		15
+end		Palavra reservada	16
+.		Delimitador		16
+

@@ -78,10 +78,11 @@ public class TrataArquivos{
         Date data = new Date();
         
         try {
-            FileWriter filewriter = new FileWriter(arquivo, true); // Parâmetro true permite escrever em arquivo existente sem recriá-lo
+            //FileWriter filewriter = new FileWriter(arquivo, true); // Parâmetro true permite escrever em arquivo existente sem recriá-lo
+            FileWriter filewriter = new FileWriter(arquivo, false);
             BufferedWriter bufwriter = new BufferedWriter(filewriter);
             
-            bufwriter.write(dateFormat.format(data) + System.lineSeparator());
+            //bufwriter.write(dateFormat.format(data) + System.lineSeparator());
             bufwriter.write("===============================================" + System.lineSeparator());
             bufwriter.write("TOKEN\t\tCLASSIFICAÇÃO\t\tLINHA" + System.lineSeparator());
             bufwriter.write("===============================================" + System.lineSeparator());

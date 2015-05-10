@@ -15,10 +15,15 @@ public class Compiladores {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println(args[0]);
+        String tabelaLexico = null;
+        
         LexicoPascal lexico = new LexicoPascal(args[0]);
 
-        lexico.Compila();
+        tabelaLexico = lexico.Compila();
+        
+        SintaticoPascal sintatico = new SintaticoPascal("TabelaLexico.txt", true);
+        
+        sintatico.Compila();
     }
     
 }
