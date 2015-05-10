@@ -143,7 +143,7 @@ public class SintaticoPascal extends TrataArquivos{
                         if (DeclaracoesSubprogramas()) {
                             if (ComandoComposto()) {
                                 if (!dados.getToken().equals("."))
-                                    mensagem = "ERRO: identificador final '.' esperado. Linha: " + dados.getLinha();
+                                    mensagem = "ERRO: delimitador final '.' esperado. Linha: " + dados.getLinha();
                             }
                         }
                     }
@@ -273,7 +273,7 @@ public class SintaticoPascal extends TrataArquivos{
                     dados = iterator.next();
                     return DeclaracoesSubprogramas2();
                 } else {
-                    mensagem = "ERRO: identificador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
+                    mensagem = "ERRO: delimitador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
                     return false;
                 }
             } else {
@@ -294,7 +294,7 @@ public class SintaticoPascal extends TrataArquivos{
                     dados = iterator.next();
                     return DeclaracoesSubprogramas2();
                 } else {
-                    mensagem = "ERRO: identificador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
+                    mensagem = "ERRO: delimitador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
                     return false;
                 }
             } else {
@@ -322,7 +322,7 @@ public class SintaticoPascal extends TrataArquivos{
                             return false;
                         }
                     } else {
-                        mensagem = "ERRO: identificador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
+                        mensagem = "ERRO: delimitador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
                         return false;
                     }
                 } else {
@@ -339,13 +339,371 @@ public class SintaticoPascal extends TrataArquivos{
     }
     
     private boolean Argumentos() {
-        
-        return true;
+        // Caso token seja "(", deve continuar o processamento. Caso contrário, então deve aceitar
+        // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há argumentos.
+        if (dados.getToken().equals("(")) {
+            dados = iterator.next();
+            if (ListaParametros()) {
+                if (dados.getToken().equals(")")) {
+                    dados = iterator.next();
+                    return true;
+                } else {
+                    mensagem = "ERRO: delimitador ')' esperado para fechar lista de parâmetros. Linha: " + dados.getLinha();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
+    private boolean ListaParametros() {
+        if (ListaIdentificadores()) {
+            if (dados.getToken().equals(":")) {
+                dados = iterator.next();
+                if (Tipo()) {
+                    return ListaParametros2();
+                } else {
+                    return false;
+                }
+            } else {
+                mensagem = "ERRO: delimitador ':' esperado após lista de identificadores. Linha: " + dados.getLinha();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean ListaParametros2() {
+        // Caso token seja ";", deve continuar o processamento. Caso contrário, então deve aceitar
+        // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há mais parametros.
+        if (dados.getToken().equals(";")) {
+            dados = iterator.next();
+            if (ListaIdentificadores()) {
+                if (dados.getToken().equals(":")) {
+                    dados = iterator.next();
+                    if (Tipo()) {
+                        return ListaParametros2();
+                    } else {
+                        return false;
+                    }
+                } else {
+                    mensagem = "ERRO: delimitador ':' esperado após lista de identificadores. Linha: " + dados.getLinha();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
     
     
     private boolean ComandoComposto() {
-        
-        return true;
+        if (dados.getToken().equals("begin")) {
+            dados = iterator.next();
+            if (ComandosOpcionais()) {
+                if (dados.getToken().equals("end")) {
+                    dados = iterator.next();
+                    return true;
+                } else {
+                    mensagem = "ERRO: comando composto deve finalizar com 'end'. Linha: " + dados.getLinha();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            mensagem = "ERRO: comando composto deve iniciar com 'begin'. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean ComandosOpcionais() {
+        // Para continuar processando, o token deve ser algo em ListaComandos (que resumindo, inicia com tipo
+        // Identificador ou com Begin ou com IF ou WHILE). Caso não seja nenhum deles, então caiu na produção
+        // "Épsilon/Vazia", ou seja, não há lista de comandos
+        if (dados.getToken().equals("if") || dados.getToken().equals("begin") || dados.getToken().equals("while") || dados.getIdent().equals(txIdent)) {
+            return ListaComandos();
+        } else {
+            return true;
+        }
+    }
+    
+    private boolean ListaComandos() {
+        if (Comando()) {
+            return ListaComandos2();
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean ListaComandos2() {
+        // Caso token seja ";", deve continuar o processamento. Caso contrário, então deve aceitar
+        // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há mais comandos.
+        if (dados.getToken().equals(";")) {
+            dados = iterator.next();
+            if (Comando()) {
+                return ListaComandos2();
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
+    private boolean Comando() {
+        if (dados.getToken().equals("if")) {
+            dados = iterator.next();
+            if (Expressao()) {
+                if (dados.getToken().equals("then")) {
+                    dados = iterator.next();
+                    if (Comando()) {
+                        return ParteElse();
+                    } else {
+                        return false;
+                    }
+                } else {
+                    mensagem = "ERRO: esperado 'then' para o comando 'if'. Linha: " + dados.getLinha();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else if (dados.getToken().equals("while")) {
+            dados = iterator.next();
+            if (Expressao()) {
+                if (dados.getToken().equals("do")) {
+                    return Comando();
+                } else {
+                    mensagem = "ERRO: esperado 'do' para o comando 'while'. Linha: " + dados.getLinha();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else if (dados.getToken().equals("begin")) {
+            return ComandoComposto();
+        } else if (dados.getIdent().equals(txIdent)) {
+            dados = iterator.next();
+            if (dados.getToken().equals(":=")) {
+                dados = iterator.next();
+                return Expressao();
+            } else if (dados.getToken().equals("(")) {  // Deve mandar o próprio parênteses, não o próximo token
+                return AtivacaoProcedimento();
+            } else {
+                return true;
+            }
+        } else {
+            mensagem = "ERRO: tipo de comando não definido. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean ParteElse() {
+        // Caso token seja "else", deve continuar o processamento. Caso contrário, então deve aceitar
+        // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há else.
+        if (dados.getToken().equals("else")) {
+            dados = iterator.next();
+            return Comando();
+        } else {
+            return true;
+        }
+    }
+    
+    private boolean AtivacaoProcedimento() {
+        if (dados.getToken().equals("(")) {
+            dados = iterator.next();
+            if (ListaExpressoes()) {
+                if (dados.getToken().equals(")")) {
+                    dados = iterator.next();
+                    return true;
+                } else {
+                    mensagem = "ERRO: esperado ')' para lista de expressões. Linha: " + dados.getLinha();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            mensagem = "ERRO: esperado '(' para lista de expressões. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean ListaExpressoes() {
+        if (Expressao()) {
+            return ListaExpressoes2();
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean ListaExpressoes2() {
+        if (dados.getToken().equals(",")) {
+            dados = iterator.next();
+            if (Expressao()) {
+                return ListaExpressoes2();
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
+    private boolean Expressao() {
+        if (ExpressaoSimples()) {
+            if (OpRelacional()) {
+                return ExpressaoSimples();
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean ExpressaoSimples() {
+        if (Sinal()) {
+            if (Termo()) {
+                return ExpressaoSimples2();
+            } else {
+                return false;
+            }
+        } else if (Termo()) {
+            return ExpressaoSimples2();
+        } else {
+            mensagem = "ERRO: tipo de expressão simples não definida. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean ExpressaoSimples2() {
+        if (OpAditivo()) {
+            if (Termo()) {
+                return ExpressaoSimples2();
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
+    private boolean Termo() {
+        if (Fator()) {
+            return Termo2();
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean Termo2() {
+        if (OpMultiplicativo()) {
+            if (Fator()) {
+                return Termo2();
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    
+    private boolean Fator() {
+        if (dados.getIdent().equals(txNumInt)) {
+            dados = iterator.next();
+            return true;
+        } else if (dados.getIdent().equals(txNumReal)) {
+            dados = iterator.next();
+            return true;
+        } else if (dados.getToken().equals("true")) {
+            dados = iterator.next();
+            return true;
+        } else if (dados.getToken().equals("false")) {
+            dados = iterator.next();
+            return true;
+        } else if (dados.getToken().equals("not")) {
+            dados = iterator.next();
+            return Fator();
+        } else if (dados.getToken().equals("(")) {
+            dados = iterator.next();
+            if (Expressao()) {
+                if (dados.getToken().equals(")")) {
+                    return true;
+                } else {
+                    mensagem = "ERRO: delimitador ')' esperado no fim da lista de expressões. Linha: " + dados.getLinha();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else if (dados.getIdent().equals(txIdent)) {
+            dados = iterator.next();
+            if (dados.getToken().equals("(")) {
+                dados = iterator.next();
+                if (ListaExpressoes()) {
+                    if (dados.getToken().equals(")")) {
+                        return true;
+                    } else {
+                        mensagem = "ERRO: delimitador ')' esperado no fim da expressão. Linha: " + dados.getLinha();
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            mensagem = "ERRO: dado não definido na lista de fatores. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean Sinal() {
+        if (dados.getToken().matches("[+-]")) {
+            dados = iterator.next();
+            return true;
+        } else {
+            mensagem = "ERRO: sinal não definido. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean OpRelacional() {
+        if (dados.getToken().matches("\"[=><]|<=|>=|<>\"")) {
+            dados = iterator.next();
+            return true;
+        } else {
+            mensagem = "ERRO: operador relacional não definido. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean OpAditivo() {
+        if (dados.getToken().matches("[+-]|or|OR")) {
+            dados = iterator.next();
+            return true;
+        } else {
+            mensagem = "ERRO: operador aditivo não definido. Linha: " + dados.getLinha();
+            return false;
+        }
+    }
+    
+    private boolean OpMultiplicativo() {
+        if (dados.getToken().matches("[*/]|and|AND")) {
+            dados = iterator.next();
+            return true;
+        } else {
+            mensagem = "ERRO: operador multiplicativo não definido. Linha: " + dados.getLinha();
+            return false;
+        }
     }
 }
