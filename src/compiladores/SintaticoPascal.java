@@ -132,13 +132,19 @@ public class SintaticoPascal extends TrataArquivos{
         
         // Concebido inicialmente para tratar apenas palavras-reservadas minúsculas
         // Processa a primeira parte da gramática. As produções de 'PROGRAMA'
-        dados = iterator.next();
-        if (dados.getToken().equals("program")) {
+        if (iterator.hasNext())
             dados = iterator.next();
+        else {
+             mensagem = "ERRO: programa vazio";
+            return false;
+        }
+        
+        if (dados.getToken().equals("program")) {
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
-                dados = iterator.next();
+                if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (dados.getToken().equals(";")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     if (DeclaracoesVariaveis()) {
                         if (DeclaracoesSubprogramas()) {
                             if (ComandoComposto()) {
@@ -167,7 +173,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean DeclaracoesVariaveis() {
         if (dados.getToken().equals("var")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             return ListaDeclaracoesVariaveis();
         } else {
             return true;
@@ -177,10 +183,10 @@ public class SintaticoPascal extends TrataArquivos{
     private boolean ListaDeclaracoesVariaveis() {
         if (ListaIdentificadores()) {
             if (dados.getToken().equals(":")) {
-                dados = iterator.next();
+                if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Tipo()) {
                     if (dados.getToken().equals(";")) {
-                        dados = iterator.next();
+                        if (iterator.hasNext()) dados = iterator.next(); else return false;
                         return ListaDeclaracoesVariaveis2();
                     } else {
                         mensagem = "ERRO: delimitador ';' esperado para encerrar declaração de tipo de variável. Linha: " + dados.getLinha();
@@ -205,10 +211,10 @@ public class SintaticoPascal extends TrataArquivos{
         if (dados.getIdent().equals(txIdent)) {
             if (ListaIdentificadores()) {
                 if (dados.getToken().equals(":")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     if (Tipo()) {
                         if (dados.getToken().equals(";")) {
-                            dados = iterator.next();
+                            if (iterator.hasNext()) dados = iterator.next(); else return false;
                             return ListaDeclaracoesVariaveis2();
                         } else {
                             mensagem = "ERRO: delimitador ';' esperado para encerrar declaração de tipo de variável. Linha: " + dados.getLinha();
@@ -231,7 +237,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean ListaIdentificadores() {
         if (dados.getIdent().equals(txIdent)) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             return ListaIdentificadores2();
         } else {
             mensagem = "ERRO: lista de identificadores possui elemento com tipo não-identificador. Linha: " + dados.getLinha();
@@ -241,9 +247,9 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean ListaIdentificadores2() {
         if (dados.getToken().equals(",")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
-                dados = iterator.next();
+                if (iterator.hasNext()) dados = iterator.next(); else return false;
                 return ListaIdentificadores2();
             } else {
                 mensagem = "ERRO: lista de identificadores possui elemento com tipo não-identificador. Linha: " + dados.getLinha();
@@ -256,7 +262,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean Tipo() {
         if (dados.getToken().equals("integer") || dados.getToken().equals("real") || dados.getToken().equals("boolean")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else {
             mensagem = "ERRO: tipo de variável não permitido. Linha: " + dados.getLinha();
@@ -272,7 +278,7 @@ public class SintaticoPascal extends TrataArquivos{
         if (dados.getToken().equals("procedure")) {
             if (DeclaracaoSubprograma()) {
                 if (dados.getToken().equals(";")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     return DeclaracoesSubprogramas2();
                 } else {
                     mensagem = "ERRO: delimitador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
@@ -293,7 +299,7 @@ public class SintaticoPascal extends TrataArquivos{
         if (dados.getToken().equals("procedure")) {
             if (DeclaracaoSubprograma()) {
                 if (dados.getToken().equals(";")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     return DeclaracoesSubprogramas2();
                 } else {
                     mensagem = "ERRO: delimitador ';' esperado no fim do subprograma. Linha: " + dados.getLinha();
@@ -309,9 +315,9 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean DeclaracaoSubprograma() {
         if (dados.getToken().equals("procedure")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
-                dados = iterator.next();
+                if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Argumentos()) {
                     if (dados.getToken().equals(";")) {
                         if (DeclaracoesVariaveis()) {
@@ -344,10 +350,10 @@ public class SintaticoPascal extends TrataArquivos{
         // Caso token seja "(", deve continuar o processamento. Caso contrário, então deve aceitar
         // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há argumentos.
         if (dados.getToken().equals("(")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (ListaParametros()) {
                 if (dados.getToken().equals(")")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     return true;
                 } else {
                     mensagem = "ERRO: delimitador ')' esperado para fechar lista de parâmetros. Linha: " + dados.getLinha();
@@ -364,7 +370,7 @@ public class SintaticoPascal extends TrataArquivos{
     private boolean ListaParametros() {
         if (ListaIdentificadores()) {
             if (dados.getToken().equals(":")) {
-                dados = iterator.next();
+                if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Tipo()) {
                     return ListaParametros2();
                 } else {
@@ -383,10 +389,10 @@ public class SintaticoPascal extends TrataArquivos{
         // Caso token seja ";", deve continuar o processamento. Caso contrário, então deve aceitar
         // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há mais parametros.
         if (dados.getToken().equals(";")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (ListaIdentificadores()) {
                 if (dados.getToken().equals(":")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     if (Tipo()) {
                         return ListaParametros2();
                     } else {
@@ -407,10 +413,10 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean ComandoComposto() {
         if (dados.getToken().equals("begin")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (ComandosOpcionais()) {
                 if (dados.getToken().equals("end")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return true;
                     return true;
                 } else {
                     mensagem = "ERRO: comando composto deve finalizar com 'end'. Linha: " + dados.getLinha();
@@ -448,7 +454,7 @@ public class SintaticoPascal extends TrataArquivos{
         // Caso token seja ";", deve continuar o processamento. Caso contrário, então deve aceitar
         // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há mais comandos.
         if (dados.getToken().equals(";")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (Comando()) {
                 return ListaComandos2();
             } else {
@@ -461,10 +467,10 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean Comando() {
         if (dados.getToken().equals("if")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (Expressao()) {
                 if (dados.getToken().equals("then")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     if (Comando()) {
                         return ParteElse();
                     } else {
@@ -478,7 +484,7 @@ public class SintaticoPascal extends TrataArquivos{
                 return false;
             }
         } else if (dados.getToken().equals("while")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (Expressao()) {
                 if (dados.getToken().equals("do")) {
                     return Comando();
@@ -492,14 +498,14 @@ public class SintaticoPascal extends TrataArquivos{
         } else if (dados.getToken().equals("begin")) {
             return ComandoComposto();
         } else if (dados.getIdent().equals(txIdent)) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getToken().equals(":=")) {
-                dados = iterator.next();
+                if (iterator.hasNext()) dados = iterator.next(); else return false;
 /*                return Expressao();
 */
                 if (Expressao()) {
                     if (dados.getToken().equals(";")) {
-                        dados = iterator.next();
+                        if (iterator.hasNext()) dados = iterator.next(); else return true;
                         return true;
                     } else {
                         mensagem = "ERRO: delimitador ';' esperado após atribuição. Linha: " + dados.getLinha();
@@ -525,7 +531,7 @@ public class SintaticoPascal extends TrataArquivos{
         // Caso token seja "else", deve continuar o processamento. Caso contrário, então deve aceitar
         // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há else.
         if (dados.getToken().equals("else")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             return Comando();
         } else {
             return true;
@@ -534,10 +540,10 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean AtivacaoProcedimento() {
         if (dados.getToken().equals("(")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (ListaExpressoes()) {
                 if (dados.getToken().equals(")")) {
-                    dados = iterator.next();
+                    if (iterator.hasNext()) dados = iterator.next(); else return false;
                     return true;
                 } else {
                     mensagem = "ERRO: esperado ')' para lista de expressões. Linha: " + dados.getLinha();
@@ -562,7 +568,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean ListaExpressoes2() {
         if (dados.getToken().equals(",")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (Expressao()) {
                 return ListaExpressoes2();
             } else {
@@ -634,22 +640,22 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean Fator() {
         if (dados.getIdent().equals(txNumInt)) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getIdent().equals(txNumReal)) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getToken().equals("true")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getToken().equals("false")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getToken().equals("not")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return Fator();
         } else if (dados.getToken().equals("(")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             if (Expressao()) {
                 if (dados.getToken().equals(")")) {
                     return true;
@@ -661,9 +667,9 @@ public class SintaticoPascal extends TrataArquivos{
                 return false;
             }
         } else if (dados.getIdent().equals(txIdent)) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getToken().equals("(")) {
-                dados = iterator.next();
+                if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (ListaExpressoes()) {
                     if (dados.getToken().equals(")")) {
                         return true;
@@ -685,7 +691,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean Sinal() {
         if (dados.getToken().matches("[+-]")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else {
             mensagem = "ERRO: sinal não definido. Linha: " + dados.getLinha();
@@ -695,7 +701,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean OpRelacional() {
         if (dados.getToken().matches("\"[=><]|<=|>=|<>\"")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else {
             mensagem = "ERRO: operador relacional não definido. Linha: " + dados.getLinha();
@@ -705,7 +711,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean OpAditivo() {
         if (dados.getToken().matches("[+-]|or|OR")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else {
             mensagem = "ERRO: operador aditivo não definido. Linha: " + dados.getLinha();
@@ -715,7 +721,7 @@ public class SintaticoPascal extends TrataArquivos{
     
     private boolean OpMultiplicativo() {
         if (dados.getToken().matches("[*/]|and|AND")) {
-            dados = iterator.next();
+            if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else {
             mensagem = "ERRO: operador multiplicativo não definido. Linha: " + dados.getLinha();
