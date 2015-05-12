@@ -320,6 +320,7 @@ public class SintaticoPascal extends TrataArquivos{
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Argumentos()) {
                     if (dados.getToken().equals(";")) {
+                        dados = iterator.next();
                         if (DeclaracoesVariaveis()) {
                             if (DeclaracoesSubprogramas()) {
                                 return (ComandoComposto());
@@ -501,21 +502,7 @@ public class SintaticoPascal extends TrataArquivos{
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getToken().equals(":=")) {
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
-/*                return Expressao();
-*/
-                if (Expressao()) {
-                    if (dados.getToken().equals(";")) {
-                        if (iterator.hasNext()) dados = iterator.next(); else return true;
-                        return true;
-                    } else {
-                        mensagem = "ERRO: delimitador ';' esperado após atribuição. Linha: " + dados.getLinha();
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-/*
-*/
+                    return Expressao();
             } else if (dados.getToken().equals("(")) {  // Deve mandar o próprio parênteses, não o próximo token
                 return AtivacaoProcedimento();
             } else {
@@ -700,7 +687,7 @@ public class SintaticoPascal extends TrataArquivos{
     }
     
     private boolean OpRelacional() {
-        if (dados.getToken().matches("\"[=><]|<=|>=|<>\"")) {
+        if (dados.getToken().matches("[=><]|<=|>=|<>")) {
             if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else {
