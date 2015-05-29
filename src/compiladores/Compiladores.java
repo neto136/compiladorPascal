@@ -21,9 +21,9 @@ public class Compiladores {
 
         tabelaLexico = lexico.Compila();
         
-        SintaticoPascal sintatico = new SintaticoPascal("TabelaLexico.txt", true);
+        SemanticoPascal semantico = new SemanticoPascal("TabelaLexico.txt", true);
         
-        sintatico.Compila();
+        semantico.Compila();
     }
     
 }

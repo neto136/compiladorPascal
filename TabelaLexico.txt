@@ -10,7 +10,7 @@ valor_1		Identificador		3
 integer		Palavra reservada	3
 ;		Delimitador		3
 valor2		Identificador		4
-:		Delimitador		4
+:=		Atribuição		4
 real		Palavra reservada	4
 ;		Delimitador		4
 procedure		Palavra reservada	6
@@ -37,31 +37,38 @@ y		Identificador		9
 end		Palavra reservada	10
 ;		Delimitador		10
 begin		Palavra reservada	12
-if		Palavra reservada	13
-1		Número inteiro		13
->		Operador relacional	13
-2		Número inteiro		13
-then		Palavra reservada	13
-if		Palavra reservada	14
-2		Número inteiro		14
->		Operador relacional	14
-a		Identificador		14
-then		Palavra reservada	14
-va		Identificador		15
-:=		Atribuição		15
-2		Número inteiro		15
-else		Identificador		16
-va		Identificador		17
-:=		Atribuição		17
-3		Número inteiro		17
-;		Delimitador		17
-valor1		Identificador		18
+yyy		Identificador		14
+:=		Atribuição		14
+9.52+i5.5		Número complexo		14
+;		Delimitador		14
+if		Palavra reservada	16
+1		Número inteiro		16
+>		Operador relacional	16
+2		Número inteiro		16
+then		Palavra reservada	16
+if		Palavra reservada	17
+2		Número inteiro		17
+>		Operador relacional	17
+a		Identificador		17
+then		Palavra reservada	17
+va		Identificador		18
 :=		Atribuição		18
-180		Número inteiro		18
-;		Delimitador		18
-valor2		Identificador		19
-:=		Atribuição		19
-2		Número inteiro		19
-end		Palavra reservada	20
-.		Delimitador		20
+2		Número inteiro		18
+else		Identificador		19
+va		Identificador		20
+:=		Atribuição		20
+3		Número inteiro		20
+;		Delimitador		20
+valor1		Identificador		21
+:=		Atribuição		21
+180		Número inteiro		21
+;		Delimitador		21
+repeat		Palavra reservada	23
+a		Identificador		24
+:=		Atribuição		24
+5		Número inteiro		24
+until		Palavra reservada	25
+1		Número inteiro		25
+end		Palavra reservada	27
+.		Delimitador		27
 

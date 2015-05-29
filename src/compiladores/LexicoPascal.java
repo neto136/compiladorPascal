@@ -32,7 +32,7 @@ public class LexicoPascal extends TrataArquivos{
     private static final String erEnter = "[\\n]";
     private static final String erComentAb = "[{]";
     private static final String erComentFe = "[}]";
-    private static final String erReserv = "(?i:program|var|integer|real|boolean|procedure|begin|end|if|then|while|do|not)";    // Case-insensitive (?i:)
+    private static final String erReserv = "(?i:program|var|integer|real|boolean|procedure|begin|end|if|then|while|do|not|repeat|until)";    // Case-insensitive (?i:)
     
     // Padrão de identificação dos tokens para a saída
     private static final String txReserv = "Palavra reservada";
@@ -41,6 +41,7 @@ public class LexicoPascal extends TrataArquivos{
     private static final String txAtrib = "Atribuição";
     private static final String txNumInt = "Número inteiro";
     private static final String txNumReal = "Número real";
+    private static final String txNumCompx = "Número complexo";
     private static final String txOpMul = "Operador multiplicativo";
     private static final String txOpAdit = "Operador aditivo";
     private static final String txOpRel = "Operador relacional";
@@ -138,23 +139,30 @@ public class LexicoPascal extends TrataArquivos{
            }
            
            //==========================================================================
-           // Caso encontre números, deve verificar se é inteiro, real e com exponencial
+           // Caso encontre números, deve verificar se é inteiro, real e com exponencial (e se é complexo)
            else if ( charAtual.matches(erNums) ) {
                String tipo = txNumInt;
                String dado = charAtual;
                boolean exponential = false;
                boolean erroExponential = false;
+               boolean erroComplexo = false;
+               boolean complexoCompleto = false;
                
                for (int i = index+1; i < programa.length(); i++) {
                    if ( Character.toString(programa.charAt(i)).matches(erNums) )
                        ;
                    else if ( Character.toString(programa.charAt(i)).matches("[.]") ) {
-                       if (tipo.equals(txNumReal)) {    // Se encontrar dois pontos, para
+                       if (tipo.equals(txNumReal) && !tipo.equals(txNumCompx)) {    // Se encontrar dois pontos, para (não sendo complexo)
                            dado = programa.substring(index, i);
                            index = i-1;     // Compensa o i++ do laço externo
                            break;
                        }
-                       tipo = txNumReal;
+                       if (!tipo.equals(txNumCompx))
+                           tipo = txNumReal;
+                       else {
+                           if ( (Character.toString(programa.charAt(i+1)).matches(erNums)) )
+                               complexoCompleto = true;
+                       }
                    } else if ( Character.toString(programa.charAt(i)).matches("[eE]") ) {
                        if (exponential) {       // Se encontrar dois expoenciais, para
                            dado = programa.substring(index, i);
@@ -175,7 +183,24 @@ public class LexicoPascal extends TrataArquivos{
                            erroExponential = true;
                            break;
                        }
-                   } else {
+                   } else if ( Character.toString(programa.charAt(i)).matches("[+-]")) {
+                       if (!tipo.equals(txNumReal)) {    // Se ainda não for real, para
+                           dado = programa.substring(index, i);
+                           index = i-1;     // Compensa o i++ do laço externo
+                           break;
+                       }
+                       
+                       if ( (Character.toString(programa.charAt(i+1)).equals("i")) ) {
+                           tipo = txNumCompx;
+                           exponential = true;
+                           i++;
+                       } else {
+                           dado = programa.substring(index, i);
+                           index = i-1;      // Compensa o i++ do laço externo
+                           erroComplexo = true;
+                           break;
+                       }
+                   }else {
                        dado = programa.substring(index, i);
                        index = i-1;      // Compensa o i++ do laço externo
                        break;
@@ -183,6 +208,10 @@ public class LexicoPascal extends TrataArquivos{
                }
                if (erroExponential) {
                    System.out.println("Erro de notação ciêntífica no número real. Linha: " + qtdeLinhas);
+                   break;
+               }
+               if (erroComplexo || (tipo.equals(txNumCompx) && !complexoCompleto)) {
+                   System.out.println("Erro de notação no número complexo. Linha: " + qtdeLinhas);
                    break;
                }
                

@@ -10,17 +10,19 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Compilador Sintático para compilação de programas escritos na linguagem de
- * programação PASCAL. É a segunda etapa da compilação.
+ * Compilador Semântico para compilação de programas escritos na linguagem de
+ * programação PASCAL. É a terceira etapa da compilação.
+ * <p> Construído sobre o Analisador Sintático, incrementando condições a mais.
  * <p> Projeto da cadeira de Construção de Compiladores na UFPB, período 2015.1
  * 
  * @author Neto
  * @see LexicoPascal
+ * @see SintaticoPascal
  * @see TrataArquivos
  * @see String
  * @see java.util.regex
  */
-public class SintaticoPascal extends TrataArquivos{
+public class SemanticoPascal extends TrataArquivos{
     private List<DadoLinha> linha;      // Lista com estrutura de Strings (Token,Identificador,Linha)
     private String tabela, mensagem;
     private Iterator<DadoLinha> iterator;
@@ -43,7 +45,7 @@ public class SintaticoPascal extends TrataArquivos{
     * Construtor da classe. Obriga a passagem da tabela vinda do analisador Léxico. 
     * @param tabela  String com tabela gerada pelo analisador Léxico
     */ 
-    public SintaticoPascal(String tabela) {
+    public SemanticoPascal(String tabela) {
         linha = new ArrayList<>();
         iterator = linha.listIterator();
         this.tabela = tabela;
@@ -55,7 +57,7 @@ public class SintaticoPascal extends TrataArquivos{
     * @param isFile  Parâmetro auxiliar para dizer se o parâmetro é o arquivo, invés da tabela.
     *                Serve apenas para permitir a sobrecarga do construtor.
     */ 
-    public SintaticoPascal(String arquivo, boolean isFile) {
+    public SemanticoPascal(String arquivo, boolean isFile) {
         linha = new ArrayList<>();
         iterator = linha.listIterator();
         this.tabela = "";
