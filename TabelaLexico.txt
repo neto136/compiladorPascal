@@ -2,73 +2,79 @@
 TOKEN		CLASSIFICAÇÃO		LINHA
 ===============================================
 program		Palavra reservada	1
-teste		Identificador		1
+exemplo		Identificador		1
 ;		Delimitador		1
 var		Palavra reservada	2
-valor_1		Identificador		3
-:		Delimitador		3
-integer		Palavra reservada	3
-;		Delimitador		3
-valor2		Identificador		4
-:=		Atribuição		4
-real		Palavra reservada	4
+a		Identificador		2
+,		Delimitador		2
+b		Identificador		2
+:		Delimitador		2
+real		Palavra reservada	2
+;		Delimitador		2
+procedure		Palavra reservada	4
+p		Identificador		4
+(		Delimitador		4
+x		Identificador		4
+:		Delimitador		4
+integer		Palavra reservada	4
+)		Delimitador		4
 ;		Delimitador		4
-procedure		Palavra reservada	6
-p		Identificador		6
-(		Delimitador		6
-a		Identificador		6
-:		Delimitador		6
-integer		Palavra reservada	6
-)		Delimitador		6
-;		Delimitador		6
-var		Palavra reservada	7
+var		Palavra reservada	5
+b		Identificador		5
+,		Delimitador		5
+c		Identificador		5
+:		Delimitador		5
+integer		Palavra reservada	5
+;		Delimitador		5
+begin		Palavra reservada	6
 b		Identificador		7
-,		Delimitador		7
-c		Identificador		7
-:		Delimitador		7
-integer		Palavra reservada	7
-;		Delimitador		7
-begin		Palavra reservada	8
-b		Identificador		9
-:=		Atribuição		9
-x		Identificador		9
-+		Operador aditivo	9
-y		Identificador		9
-end		Palavra reservada	10
+:=		Atribuição		7
+x		Identificador		7
++		Operador aditivo	7
+x		Identificador		7
+end		Palavra reservada	8
+;		Delimitador		8
+procedure		Palavra reservada	10
+q		Identificador		10
 ;		Delimitador		10
-begin		Palavra reservada	12
-yyy		Identificador		14
-:=		Atribuição		14
-9.52+i5.5		Número complexo		14
+var		Palavra reservada	11
+c		Identificador		11
+,		Delimitador		11
+d		Identificador		11
+:		Delimitador		11
+integer		Palavra reservada	11
+;		Delimitador		11
+procedure		Palavra reservada	13
+r		Identificador		13
+(		Delimitador		13
+y		Identificador		13
+:		Delimitador		13
+real		Palavra reservada	13
+)		Delimitador		13
+;		Delimitador		13
+var		Palavra reservada	14
+e		Identificador		14
+,		Delimitador		14
+f		Identificador		14
+:		Delimitador		14
+integer		Palavra reservada	14
 ;		Delimitador		14
-if		Palavra reservada	16
-1		Número inteiro		16
->		Operador relacional	16
-2		Número inteiro		16
-then		Palavra reservada	16
-if		Palavra reservada	17
-2		Número inteiro		17
->		Operador relacional	17
-a		Identificador		17
-then		Palavra reservada	17
-va		Identificador		18
-:=		Atribuição		18
-2		Número inteiro		18
-else		Identificador		19
-va		Identificador		20
+begin		Palavra reservada	15
+a		Identificador		16
+:=		Atribuição		16
+y		Identificador		16
+end		Palavra reservada	17
+;		Delimitador		17
+begin		Palavra reservada	19
+e		Identificador		20
 :=		Atribuição		20
-3		Número inteiro		20
-;		Delimitador		20
-valor1		Identificador		21
-:=		Atribuição		21
-180		Número inteiro		21
+4		Número inteiro		20
+end		Palavra reservada	21
 ;		Delimitador		21
-repeat		Palavra reservada	23
+begin		Palavra reservada	23
 a		Identificador		24
 :=		Atribuição		24
-5		Número inteiro		24
-until		Palavra reservada	25
-1		Número inteiro		25
-end		Palavra reservada	27
-.		Delimitador		27
+b		Identificador		24
+end		Palavra reservada	25
+.		Delimitador		25
 

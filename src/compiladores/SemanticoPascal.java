@@ -8,6 +8,7 @@ package compiladores;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Compilador Semântico para compilação de programas escritos na linguagem de
@@ -24,9 +25,11 @@ import java.util.List;
  */
 public class SemanticoPascal extends TrataArquivos{
     private List<DadoLinha> linha;      // Lista com estrutura de Strings (Token,Identificador,Linha)
-    private String tabela, mensagem;
+    private Stack<String> pilhaEscopos; // Pilha com escopos e suas variáveis
+    private String tabela, mensagem, nomePrograma;
     private Iterator<DadoLinha> iterator;
-    DadoLinha dados;
+    private int nivelEscopo;
+    private DadoLinha dados;
     
     // Padrão de identificação dos tokens para a saída
     private static final String txReserv = "Palavra reservada";
@@ -39,6 +42,7 @@ public class SemanticoPascal extends TrataArquivos{
     private static final String txOpMul = "Operador multiplicativo";
     private static final String txOpAdit = "Operador aditivo";
     private static final String txOpRel = "Operador relacional";
+    private static final String txSep = "$";    // Caractere separador de escopos na pilha
     
     
     /**
@@ -48,6 +52,7 @@ public class SemanticoPascal extends TrataArquivos{
     public SemanticoPascal(String tabela) {
         linha = new ArrayList<>();
         iterator = linha.listIterator();
+        nivelEscopo = 0;
         this.tabela = tabela;
     }
     
@@ -61,8 +66,51 @@ public class SemanticoPascal extends TrataArquivos{
         linha = new ArrayList<>();
         iterator = linha.listIterator();
         this.tabela = "";
+        nivelEscopo = 0;
         LeTabela(arquivo);
     }
+    
+    public boolean analisaPilha(String token) {
+        Stack<String> copia;
+        copia = (Stack<String>) pilhaEscopos.clone();
+        
+        // Verifica se está no nível de declaração ou entrou em comandos compostos (nível > 0)
+        if (nivelEscopo == 0) {
+            // Analisa pilha até primeiro separador, ou seja, apenas o escopo atual.
+            // Se nele já existir tal identificador, retorna erro. Senão, adiciona na pilha.
+            while (!copia.peek().equals(txSep))
+                if (copia.pop().equals(token)) {
+                    mensagem = "ERRO: identificador já foi declarado neste escopo. Linha: " + dados.getLinha();
+                    return false;
+                }
+            pilhaEscopos.push(token);
+            return true;
+        } else {
+            // Se não for declaração de variáveis, então varre toda a pilha (do escopo atual até o máximo,
+            // ou seja, até a pilha esvaziar) procurando pelo token. Se não existir é porque o identificador
+            // não foi declarado. Se existir, ainda deve verificar se é o identificador do programa e não aceitar.
+            while (!copia.isEmpty())
+                if (copia.pop().equals(token)) {                // Achou o token na pilha
+                    if (copia.search(nomePrograma) == -1) {     // Vê se o nome do programa não está na pilha (se não, então o token usado é o nome)
+                        mensagem = "ERRO: identificador não pode ser o nome do programa. Linha: " + dados.getLinha();
+                        return false;
+                    } else                                      // Se não for o identificador do programa, aceita
+                        return true;
+                }
+            mensagem = "ERRO: identificador não declarado no programa. Linha: " + dados.getLinha();
+            return false;
+        }
+            
+    }
+    
+    public void fechaEscopo() {
+        // Enquanto não chegar no separador do escopo atual, continua removendo os dados
+        while (!pilhaEscopos.peek().equals(txSep))
+            pilhaEscopos.pop();
+        // Ao terminar, chegou no separador, então remove-o
+        pilhaEscopos.pop();
+    }
+    
     
     /**
     * Método para executar a leitura do arquivo através da classe TrataArquivos
@@ -125,6 +173,7 @@ public class SemanticoPascal extends TrataArquivos{
         
         mensagem = "Analisador Sintático: Programa compilado com sucesso.";
         iterator = linha.listIterator();    // Atualiza o iterador da lista
+        pilhaEscopos = new Stack<>();       // Reinicia a pilha para nova compilação
         
         /*while (iterator.hasNext()) {
             DadoLinha dado = iterator.next();
@@ -143,8 +192,13 @@ public class SemanticoPascal extends TrataArquivos{
         }
         
         if (dados.getToken().equals("program")) {
+            pilhaEscopos.push(txSep);   // Inicia empilhamento pelo programa
+            
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
+                pilhaEscopos.push(dados.getToken());    // Empilha nome do programa
+                nomePrograma = dados.getToken();        // e salva para consulta futura
+                
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (dados.getToken().equals(";")) {
                     if (iterator.hasNext()) dados = iterator.next(); else return false;
@@ -240,6 +294,9 @@ public class SemanticoPascal extends TrataArquivos{
     
     private boolean ListaIdentificadores() {
         if (dados.getIdent().equals(txIdent)) {
+            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+                return false;
+            
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             return ListaIdentificadores2();
         } else {
@@ -252,6 +309,9 @@ public class SemanticoPascal extends TrataArquivos{
         if (dados.getToken().equals(",")) {
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
+                if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+                    return false;
+                
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
                 return ListaIdentificadores2();
             } else {
@@ -320,6 +380,10 @@ public class SemanticoPascal extends TrataArquivos{
         if (dados.getToken().equals("procedure")) {
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
+                if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+                    return false;
+                pilhaEscopos.push(txSep);   // Ao adicionar o identificador de uma procedure, adiciona separador
+                
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Argumentos()) {
                     if (dados.getToken().equals(";")) {
@@ -417,9 +481,14 @@ public class SemanticoPascal extends TrataArquivos{
     
     private boolean ComandoComposto() {
         if (dados.getToken().equals("begin")) {
+            nivelEscopo++;
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (ComandosOpcionais()) {
                 if (dados.getToken().equals("end")) {
+                    nivelEscopo--;
+                    if (nivelEscopo == 0)
+                        fechaEscopo();
+                    
                     if (iterator.hasNext()) dados = iterator.next(); else return true;
                     return true;
                 } else {
@@ -502,6 +571,9 @@ public class SemanticoPascal extends TrataArquivos{
         } else if (dados.getToken().equals("begin")) {
             return ComandoComposto();
         } else if (dados.getIdent().equals(txIdent)) {
+            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+                return false;
+            
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getToken().equals(":=")) {
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
@@ -673,6 +745,9 @@ public class SemanticoPascal extends TrataArquivos{
                 return false;
             }
         } else if (dados.getIdent().equals(txIdent)) {
+            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+                return false;
+            
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getToken().equals("(")) {
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
