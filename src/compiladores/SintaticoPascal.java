@@ -104,6 +104,12 @@ public class SintaticoPascal extends TrataArquivos{
         // Para cada linha, lê os 3 tokens (Token, Tipo, Linha) e insere na lista
         for (String linhaAtual : linhas) {
             String[] tokens = linhaAtual.split("[\\t]+");   // Os tokens são separados por 1 ou mais tabulações
+            
+            if (tokens.length != 3) {
+                System.out.println("Erro: A tabela de tokens do compilador Léxico não possui 3 tokens por linha");
+                return false;
+            }
+            
             DadoLinha dado = new DadoLinha(tokens[0], tokens[1], tokens[2]);
             linha.add(dado);
         }

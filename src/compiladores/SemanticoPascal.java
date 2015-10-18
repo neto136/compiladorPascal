@@ -25,10 +25,10 @@ import java.util.Stack;
  */
 public class SemanticoPascal extends TrataArquivos{
     private List<DadoLinha> linha;      // Lista com estrutura de Strings (Token,Identificador,Linha)
-    private Stack<String> pilhaEscopos; // Pilha com escopos e suas variáveis
+    private Stack<String> pilhaEscopos; // Pilha com escopos e suas variáveis. Cada grupo de variável tem seu escopo separado por "txSep"
     private String tabela, mensagem, nomePrograma;
     private Iterator<DadoLinha> iterator;
-    private int nivelEscopo;
+    private int nivelEscopo;            // Auxiliar para indicar se já terminou declarações e está iniciando uso das variáveis (begin-end)
     private DadoLinha dados;
     
     // Padrão de identificação dos tokens para a saída
@@ -74,7 +74,7 @@ public class SemanticoPascal extends TrataArquivos{
         Stack<String> copia;
         copia = (Stack<String>) pilhaEscopos.clone();
         
-        // Verifica se está no nível de declaração ou entrou em comandos compostos (nível > 0)
+        // Verifica se está no nível de declaração (nível == 0) ou entrou em comandos compostos (nível > 0)
         if (nivelEscopo == 0) {
             // Analisa pilha até primeiro separador, ou seja, apenas o escopo atual.
             // Se nele já existir tal identificador, retorna erro. Senão, adiciona na pilha.
@@ -90,8 +90,8 @@ public class SemanticoPascal extends TrataArquivos{
             // ou seja, até a pilha esvaziar) procurando pelo token. Se não existir é porque o identificador
             // não foi declarado. Se existir, ainda deve verificar se é o identificador do programa e não aceitar.
             while (!copia.isEmpty())
-                if (copia.pop().equals(token)) {                // Achou o token na pilha
-                    if (copia.search(nomePrograma) == -1) {     // Vê se o nome do programa não está na pilha (se não, então o token usado é o nome)
+                if (copia.pop().equals(token)) {                // Achou o token na pilha. A verificação abaixo é com o que resta após o POP.
+                    if (copia.search(nomePrograma) == -1) {     // Vê se o nome do programa não está na pilha (se não está, então o token usado é o nome)
                         mensagem = "ERRO: identificador não pode ser o nome do programa. Linha: " + dados.getLinha();
                         return false;
                     } else                                      // Se não for o identificador do programa, aceita
@@ -154,6 +154,12 @@ public class SemanticoPascal extends TrataArquivos{
         // Para cada linha, lê os 3 tokens (Token, Tipo, Linha) e insere na lista
         for (String linhaAtual : linhas) {
             String[] tokens = linhaAtual.split("[\\t]+");   // Os tokens são separados por 1 ou mais tabulações
+            
+            if (tokens.length != 3) {
+                System.out.println("Erro: A tabela de tokens do compilador Léxico não possui 3 tokens por linha");
+                return false;
+            }
+            
             DadoLinha dado = new DadoLinha(tokens[0], tokens[1], tokens[2]);
             linha.add(dado);
         }
@@ -380,7 +386,7 @@ public class SemanticoPascal extends TrataArquivos{
         if (dados.getToken().equals("procedure")) {
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
-                if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+                if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador ou se já estiver declarado, retorna a falha
                     return false;
                 pilhaEscopos.push(txSep);   // Ao adicionar o identificador de uma procedure, adiciona separador
                 
@@ -745,7 +751,7 @@ public class SemanticoPascal extends TrataArquivos{
                 return false;
             }
         } else if (dados.getIdent().equals(txIdent)) {
-            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador ou se já estiver declarado, retorna a falha
                 return false;
             
             if (iterator.hasNext()) dados = iterator.next(); else return false;

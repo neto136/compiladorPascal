@@ -58,18 +58,34 @@ public class LexicoPascal extends TrataArquivos{
        qtdeLinhas = 1;
    }
    
+   /**
+    * Retorna o programa que está dentro do analisador Léxico. 
+    * @return String com o Programa contido no analisador, lido do arquivo em disco.
+    */
    public String getPrograma() {
        return programa;
    }
    
+   /**
+    * Retorna o arquivo que está dentro do analisador Léxico. 
+    * @return String com o nome do arquivo contido no analisador. Arquivo que será lido para gerar programa.
+    */
    public String getArquivo() {
        return arquivo;
    }
    
+   /**
+    * Retorna a tabela de símbolos contida no analisador Léxico. 
+    * @return String com a tabela de símbolos gerada pelo analisador após sua compilação.
+    */
    public String getTabela() {
        return tabela;
    }
    
+   /**
+    * Método para mudança do arquivo a ser lido pelo analisador Léxico após sua criação.
+    * @param arquivo String com nome do arquivo a ser usado para leitura.
+    */
    public void setArquivo(String arquivo) {
        this.arquivo = arquivo;
    }
@@ -102,7 +118,7 @@ public class LexicoPascal extends TrataArquivos{
        /**==========================================================================
           Laço para simulação de autômato do analisador léxico, varrendo cada caractere e, através de um 
           look-ahead para ver quais são os próximos caracteres, classificar os tokens inserindo-os na tabela.
-          Não foi usada a classe Tokenizer intencinoalmente para que ainda seja possível realizar alguma operação
+          Não foi usada a classe Tokenizer intencionalmente para que ainda seja possível realizar alguma operação
           sobre espaços em branco e caracteres especiais, caso necessário futuramente.
        */
        for (int index = 0; index < programa.length(); index++) {

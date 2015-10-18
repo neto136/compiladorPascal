@@ -31,7 +31,7 @@ b		Identificador		7
 :=		Atribuição		7
 x		Identificador		7
 +		Operador aditivo	7
-x		Identificador		7
+exemplo		Identificador		7
 end		Palavra reservada	8
 ;		Delimitador		8
 procedure		Palavra reservada	10
@@ -66,7 +66,7 @@ y		Identificador		16
 end		Palavra reservada	17
 ;		Delimitador		17
 begin		Palavra reservada	19
-e		Identificador		20
+c		Identificador		20
 :=		Atribuição		20
 4		Número inteiro		20
 end		Palavra reservada	21
