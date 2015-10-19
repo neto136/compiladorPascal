@@ -25,11 +25,15 @@ import java.util.Stack;
  */
 public class SemanticoPascal extends TrataArquivos{
     private List<DadoLinha> linha;      // Lista com estrutura de Strings (Token,Identificador,Linha)
-    private Stack<String> pilhaEscopos; // Pilha com escopos e suas variáveis. Cada grupo de variável tem seu escopo separado por "txSep"
+    private Stack<DadoPilha> pilhaEscopos; // Pilha com escopos e suas variáveis.
+                                           // Cada grupo de variável tem seu escopo separado por "txSep"
+                                           // Cada item corresponde à estrutura (Identificador, TipoDeDado).
+    private Stack<String> pilhaControleTipo;    // Pilha auxiliar para controle de verificação de tipos em expressões e atribuições 
     private String tabela, mensagem, nomePrograma;
     private Iterator<DadoLinha> iterator;
     private int nivelEscopo;            // Auxiliar para indicar se já terminou declarações e está iniciando uso das variáveis (begin-end)
     private DadoLinha dados;
+    private boolean auxIdentificadores; // Auxiliar para marcar identificadores de variáveis com "+" na pilha para definir tipo
     
     // Padrão de identificação dos tokens para a saída
     private static final String txReserv = "Palavra reservada";
@@ -43,6 +47,11 @@ public class SemanticoPascal extends TrataArquivos{
     private static final String txOpAdit = "Operador aditivo";
     private static final String txOpRel = "Operador relacional";
     private static final String txSep = "$";    // Caractere separador de escopos na pilha
+    // Tabela de tipos para operações aritméticas. Apenas as válidas aqui. Ordem {V1,V2,V3} no array para V3 := V1 op V2
+    private static final String[][] tabelaOperacoes = {{"integer","integer","integer","real"   ,"real"},
+                                                       {"integer","integer","real"   ,"integer","real"},
+                                                       {"integer","real"   ,"real"   ,"real"   ,"real"}};
+    private static final String[] txTipo = {"program", "integer", "real", "boolean", "procedure"};  // Tipos de dados para Pilha de Controle de Tipos
     
     
     /**
@@ -70,28 +79,38 @@ public class SemanticoPascal extends TrataArquivos{
         LeTabela(arquivo);
     }
     
-    public boolean analisaPilha(String token) {
-        Stack<String> copia;
-        copia = (Stack<String>) pilhaEscopos.clone();
+    /**
+     * Método exclusivo para centralizar o tratamento de tokens de identificadores que devem ser
+     * inseridos na pilha de escopos ou que já estão declarados e apenas necessitam ser buscados.
+     * <p>A variável "nivelEscopo" determina se há escopos abertos (> 0) e busca se o identificador
+     * passado foi declarado na pilha. Caso esteja nas declarações (== 0), apenas busca na pilha se 
+     * o identificador já foi declarado com esse nome.
+     * @param token String com token do identificador a ser inserido ou buscado na pilha de escopos.
+     * @param tipo String com o tipo do token no momento. Requerido como parâmetro para push() na pilha.
+     * @return Boolean confirmando se foi possível declarar variável ou encontrá-la na pilha, em caso de busca.
+     */
+    private boolean analisaPilha(String token, String tipo) {
+        Stack<DadoPilha> copia;
+        copia = (Stack<DadoPilha>) pilhaEscopos.clone();
         
         // Verifica se está no nível de declaração (nível == 0) ou entrou em comandos compostos (nível > 0)
         if (nivelEscopo == 0) {
             // Analisa pilha até primeiro separador, ou seja, apenas o escopo atual.
             // Se nele já existir tal identificador, retorna erro. Senão, adiciona na pilha.
-            while (!copia.peek().equals(txSep))
-                if (copia.pop().equals(token)) {
+            while (!copia.peek().getIdentificador().equals(txSep))
+                if (copia.pop().getIdentificador().equals(token)) {
                     mensagem = "ERRO: identificador já foi declarado neste escopo. Linha: " + dados.getLinha();
                     return false;
                 }
-            pilhaEscopos.push(token);
+            pilhaEscopos.push(new DadoPilha(token, tipo));
             return true;
         } else {
             // Se não for declaração de variáveis, então varre toda a pilha (do escopo atual até o máximo,
             // ou seja, até a pilha esvaziar) procurando pelo token. Se não existir é porque o identificador
             // não foi declarado. Se existir, ainda deve verificar se é o identificador do programa e não aceitar.
             while (!copia.isEmpty())
-                if (copia.pop().equals(token)) {                // Achou o token na pilha. A verificação abaixo é com o que resta após o POP.
-                    if (copia.search(nomePrograma) == -1) {     // Vê se o nome do programa não está na pilha (se não está, então o token usado é o nome)
+                if (copia.pop().getIdentificador().equals(token)) {     // Achou o token na pilha.
+                    if (token.equals(nomePrograma)) {     // Vê se o nome do programa é igual ao token
                         mensagem = "ERRO: identificador não pode ser o nome do programa. Linha: " + dados.getLinha();
                         return false;
                     } else                                      // Se não for o identificador do programa, aceita
@@ -103,14 +122,90 @@ public class SemanticoPascal extends TrataArquivos{
             
     }
     
-    public void fechaEscopo() {
+    /**
+     * Método auxilar para tratar fechamento de escopos. Quando um END reduz o contador
+     * de escopos abertos e chega a zero (nenhum escopo aberto), esta função é chamada.
+     * Ela retira da pilha todas variáveis existentes do escopo atual, só parando ao chegar
+     * no caractere separador de escopos, depois também o remove.
+     */
+    private void fechaEscopo() {
         // Enquanto não chegar no separador do escopo atual, continua removendo os dados
-        while (!pilhaEscopos.peek().equals(txSep))
+        while (!pilhaEscopos.peek().getIdentificador().equals(txSep)) {
+            System.out.println(pilhaEscopos.peek().getIdentificador() +"\t"+ pilhaEscopos.peek().getTipo());
+            
             pilhaEscopos.pop();
+        }
+            
         // Ao terminar, chegou no separador, então remove-o
         pilhaEscopos.pop();
+        System.out.println("$");
     }
     
+    /**
+     * Após o método Tipo() identificar qual o tipo atual a ser passado para a lista
+     * de identificadores, chama este método. Ele busca na pilhaEscopos todas as variáveis
+     * marcadas com tipo "+" para terem seu tipo atualizado pelo parâmetro deste método.
+     * A marcação é feita pelos métodos ListaIdentificadores() e ListaIdentificadores2().
+     * @param tipo String com tipo de variável identificado que deve ser usado para atualizar
+     *             tipos das variáveis marcadas na pilha de escopos.
+     */
+    private void atualizaTipos(String tipo) {
+        // OBS: ESTE MÉTODO NÃO É A MELHOR SOLUÇÃO MAS FOI O NECESSÁRIO PARA TERMINAR LOGO
+        Stack<DadoPilha> aux = new Stack();
+        
+        // Remove todos itens da pilha de escopo, armazenando em outra auxiliar (invertendo a ordem, claro).
+        // Cada dado com tipo marcado para substituição ("+"), o tem trocado pelo parâmetro "tipo".
+        while (!pilhaEscopos.isEmpty()) {
+            DadoPilha dado = pilhaEscopos.pop();
+            if (dado.getTipo().equals("+"))
+                dado.setTipo(tipo);
+            aux.push(dado);
+        }
+        
+        // Se a pilha não esvaziou, algo está errado
+        if (!pilhaEscopos.isEmpty()) {
+            mensagem = "ERRO: Falha interna. Pilha não está vazia para reinserção";
+            return;
+        }
+        
+        // Reinsere tudo na pilha original, com atualização dos tipos marcados. A ordem volta ao normal.
+        while (!aux.isEmpty()) {
+            pilhaEscopos.push(aux.pop());
+        }
+    }
+    
+    
+    private boolean analisaPCT() {
+        if  (pilhaControleTipo.isEmpty()) {
+            System.out.println("ERRO: Faha interna. Pilha de Controle de Tipos está vazia");
+            return false;
+        }
+        
+        Stack<String> copia = (Stack<String>) pilhaControleTipo.clone();
+        String topo = copia.pop();
+        
+        if  (copia.isEmpty())
+            return true;
+        
+        String subtopo = copia.pop();
+        
+        for (int i = 0; i < tabelaOperacoes[0].length; i++) {
+            if (topo.equals(tabelaOperacoes[0][i]) && subtopo.equals(tabelaOperacoes[1][i])) {
+                atualizaPCT(tabelaOperacoes[2][i]);
+                return true;
+            }
+        }
+        
+        mensagem = "ERRO: Incompatibilidade de tipos na expressão. Linha " + dados.getLinha();
+        return false;
+    }
+    
+    
+    private void atualizaPCT(String tipoResultante) {
+        pilhaControleTipo.pop();    // Remover topo
+        pilhaControleTipo.pop();    // Remover subtopo
+        pilhaControleTipo.push(tipoResultante);  // Adicionar tipo resultante no topo
+    }
     
     /**
     * Método para executar a leitura do arquivo através da classe TrataArquivos
@@ -177,16 +272,10 @@ public class SemanticoPascal extends TrataArquivos{
         if (!geraLista())
             return false;
         
-        mensagem = "Analisador Sintático: Programa compilado com sucesso.";
+        mensagem = "Analisador Sintático/Semântico: Programa compilado com sucesso.";
         iterator = linha.listIterator();    // Atualiza o iterador da lista
         pilhaEscopos = new Stack<>();       // Reinicia a pilha para nova compilação
-        
-        /*while (iterator.hasNext()) {
-            DadoLinha dado = iterator.next();
-            System.out.println(dado.getToken() + "  " + dado.getIdent() + " " + dado.getLinha());
-        }*/
-        
-        
+        pilhaControleTipo = new Stack<>();       // Reinicia a pilha para nova compilação
         
         // Concebido inicialmente para tratar apenas palavras-reservadas minúsculas
         // Processa a primeira parte da gramática. As produções de 'PROGRAMA'
@@ -198,11 +287,11 @@ public class SemanticoPascal extends TrataArquivos{
         }
         
         if (dados.getToken().equals("program")) {
-            pilhaEscopos.push(txSep);   // Inicia empilhamento pelo programa
+            pilhaEscopos.push(new DadoPilha(txSep));   // Inicia empilhamento pelo programa
             
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
-                pilhaEscopos.push(dados.getToken());    // Empilha nome do programa
+                pilhaEscopos.push(new DadoPilha(dados.getToken(), "program"));    // Empilha nome do programa e seu tipo
                 nomePrograma = dados.getToken();        // e salva para consulta futura
                 
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
@@ -216,6 +305,11 @@ public class SemanticoPascal extends TrataArquivos{
                                 else
                                     mensagem = "Analisador Sintático: Programa compilado com sucesso.";
                             }
+                            
+                            
+                            //while(!pilhaControleTipo.isEmpty())
+                                System.out.println("\nPilha de Controle de Tipos:\n" + pilhaControleTipo.toString() + "\n");
+                            
                         }
                     }
                 } else {
@@ -244,8 +338,10 @@ public class SemanticoPascal extends TrataArquivos{
     }
     
     private boolean ListaDeclaracoesVariaveis() {
+        auxIdentificadores = true;      // Identificadores neste momento devem ser marcados como tipo "+"
         if (ListaIdentificadores()) {
             if (dados.getToken().equals(":")) {
+                auxIdentificadores = false; // Libera marcação de identificadores
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Tipo()) {
                     if (dados.getToken().equals(";")) {
@@ -260,6 +356,7 @@ public class SemanticoPascal extends TrataArquivos{
                 }
             } else {
                 mensagem = "ERRO: delimitador ':' esperado para declaração de tipo. Linha: " + dados.getLinha();
+                auxIdentificadores = false; // Libera marcação de identificadores
                 return false;
             }
         } else {
@@ -272,8 +369,10 @@ public class SemanticoPascal extends TrataArquivos{
         // de identificadores. Caso contrário, então está iniciando com algo que não é identificador
         // e se encontra no caso "Épsilon/Vazio" da produção da regra gramatical, ou seja, declarações encerradas.
         if (dados.getIdent().equals(txIdent)) {
+            auxIdentificadores = true;      // Identificadores neste momento devem ser marcados como tipo "+"
             if (ListaIdentificadores()) {
                 if (dados.getToken().equals(":")) {
+                    auxIdentificadores = false; // Libera marcação de identificadores
                     if (iterator.hasNext()) dados = iterator.next(); else return false;
                     if (Tipo()) {
                         if (dados.getToken().equals(";")) {
@@ -300,7 +399,8 @@ public class SemanticoPascal extends TrataArquivos{
     
     private boolean ListaIdentificadores() {
         if (dados.getIdent().equals(txIdent)) {
-            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+            String aux = auxIdentificadores ? "+" : "";  // Se auxiliar é true, marque tipo como "+" para definir depois
+            if (!analisaPilha(dados.getToken(), aux))    // Se não adicionar o identificador ou não estiver declarado, retorna a falha
                 return false;
             
             if (iterator.hasNext()) dados = iterator.next(); else return false;
@@ -315,7 +415,8 @@ public class SemanticoPascal extends TrataArquivos{
         if (dados.getToken().equals(",")) {
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
-                if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+                String aux = auxIdentificadores ? "+" : "";  // Se auxiliar é true, marque tipo como "+" para definir depois
+                if (!analisaPilha(dados.getToken(), aux))    // Se não adicionar o identificador ou não estiver declarado, retorna a falha
                     return false;
                 
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
@@ -331,6 +432,7 @@ public class SemanticoPascal extends TrataArquivos{
     
     private boolean Tipo() {
         if (dados.getToken().equals("integer") || dados.getToken().equals("real") || dados.getToken().equals("boolean")) {
+            atualizaTipos(dados.getToken());
             if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else {
@@ -386,9 +488,9 @@ public class SemanticoPascal extends TrataArquivos{
         if (dados.getToken().equals("procedure")) {
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getIdent().equals(txIdent)) {
-                if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador ou se já estiver declarado, retorna a falha
+                if (!analisaPilha(dados.getToken(), "procedure"))    // Se não adicionar o identificador ou não estiver declarado, retorna a falha
                     return false;
-                pilhaEscopos.push(txSep);   // Ao adicionar o identificador de uma procedure, adiciona separador
+                pilhaEscopos.push(new DadoPilha(txSep));   // Ao adicionar o identificador de uma procedure, adiciona separador
                 
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Argumentos()) {
@@ -442,8 +544,10 @@ public class SemanticoPascal extends TrataArquivos{
     }
     
     private boolean ListaParametros() {
+        auxIdentificadores = true;      // Identificadores neste momento devem ser marcados como tipo "+"
         if (ListaIdentificadores()) {
             if (dados.getToken().equals(":")) {
+                auxIdentificadores = false; // Libera marcação de identificadores
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
                 if (Tipo()) {
                     return ListaParametros2();
@@ -464,8 +568,10 @@ public class SemanticoPascal extends TrataArquivos{
         // e sair pois caiu no caso "Épsilon/Vazio" das produções, ou seja, não há mais parametros.
         if (dados.getToken().equals(";")) {
             if (iterator.hasNext()) dados = iterator.next(); else return false;
+            auxIdentificadores = true;      // Identificadores neste momento devem ser marcados como tipo "+"
             if (ListaIdentificadores()) {
                 if (dados.getToken().equals(":")) {
+                    auxIdentificadores = false; // Libera marcação de identificadores
                     if (iterator.hasNext()) dados = iterator.next(); else return false;
                     if (Tipo()) {
                         return ListaParametros2();
@@ -577,13 +683,30 @@ public class SemanticoPascal extends TrataArquivos{
         } else if (dados.getToken().equals("begin")) {
             return ComandoComposto();
         } else if (dados.getIdent().equals(txIdent)) {
-            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador nem já estiver declarado, retorna a falha
+            if (!analisaPilha(dados.getToken(), ""))    // Se não adicionar o identificador ou não estiver declarado, retorna a falha
                 return false;
+            
+            // TAMBÉM CORRIGIR DEPOIS ESTE TRECHO DE CÓDIGO
+            Stack<DadoPilha> copia = (Stack<DadoPilha>) pilhaEscopos.clone();
+            String temp;
+            while(!copia.isEmpty())
+                if (!copia.peek().getIdentificador().equals(dados.getToken()))
+                    copia.pop();
+                else
+                    break;
+            temp = copia.pop().getTipo();     // Registra o tipo do identificador para inserir na PCT e comparar com resultante da Expressão
             
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getToken().equals(":=")) {
                 if (iterator.hasNext()) dados = iterator.next(); else return false;
-                    return Expressao();
+                
+                //return Expressao();
+                if (Expressao()) {
+                    pilhaControleTipo.push(temp);
+                    return analisaPCT();
+                } else
+                    return false;                
+                    
             } else if (dados.getToken().equals("(")) {  // Deve mandar o próprio parênteses, não o próximo token
                 return AtivacaoProcedimento();
             } else {
@@ -662,8 +785,14 @@ public class SemanticoPascal extends TrataArquivos{
     
     private boolean Expressao() {
         if (ExpressaoSimples()) {
+            String temp = pilhaControleTipo.peek();     // Salva tipo resultante da primeira expressão para comparar
             if (OpRelacional()) {
-                return ExpressaoSimples();
+                //return ExpressaoSimples();
+                if (ExpressaoSimples()) {
+                    pilhaControleTipo.push(temp);       // Empilha tipo resultante anterior para commparar
+                    return analisaPCT();
+                } else
+                    return false;
             } else {
                 return true;
             }
@@ -695,6 +824,8 @@ public class SemanticoPascal extends TrataArquivos{
                 return false;
             }
         } else {
+            if (!analisaPCT())
+                return false;
             return true;
         }
     }
@@ -715,24 +846,30 @@ public class SemanticoPascal extends TrataArquivos{
                 return false;
             }
         } else {
+            if (!analisaPCT())
+                return false;
             return true;
         }
     }
     
     private boolean Fator() {
         if (dados.getIdent().equals(txNumInt)) {
+            pilhaControleTipo.push("integer");  // Adicionar na PcT o tipo do fator para verificação da expressão
             if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getIdent().equals(txNumReal)) {
+            pilhaControleTipo.push("real");  // Adicionar na PcT o tipo do fator para verificação da expressão
             if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getIdent().equals(txNumCompx)) {
             if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getToken().equals("true")) {
+            pilhaControleTipo.push("boolean");  // Adicionar na PcT o tipo do fator para verificação da expressão
             if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getToken().equals("false")) {
+            pilhaControleTipo.push("boolean");  // Adicionar na PcT o tipo do fator para verificação da expressão
             if (iterator.hasNext()) dados = iterator.next(); else return true;
             return true;
         } else if (dados.getToken().equals("not")) {
@@ -751,8 +888,19 @@ public class SemanticoPascal extends TrataArquivos{
                 return false;
             }
         } else if (dados.getIdent().equals(txIdent)) {
-            if (!analisaPilha(dados.getToken()))    // Se não adicionar o identificador ou se já estiver declarado, retorna a falha
+            if (!analisaPilha(dados.getToken(), ""))    // Se não adicionar o identificador ou não estiver declarado, retorna a falha
                 return false;
+            
+            // MELHORAR TAMBÉM ESTA SOLUÇÃO. FOI O NECESSÁRIO PARA RESOLVER LOGO
+            // Adicionar na PcT o tipo do fator (identificador) para verificação da expressão
+            Stack<DadoPilha> temp = (Stack<DadoPilha>) pilhaEscopos.clone();
+            while(!temp.isEmpty()) {
+                DadoPilha aux = temp.pop();
+                if (aux.getIdentificador().equals( dados.getToken() )) {
+                    pilhaControleTipo.push(aux.getTipo());
+                    break;
+                }
+            }
             
             if (iterator.hasNext()) dados = iterator.next(); else return false;
             if (dados.getToken().equals("(")) {

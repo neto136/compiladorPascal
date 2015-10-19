@@ -6,9 +6,10 @@
             <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/TrataArquivos.java</file>
             <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/LexicoPascal.java</file>
             <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/Compiladores.java</file>
-            <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/DadoLinha.java</file>
             <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/SemanticoPascal.java</file>
+            <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/DadoLinha.java</file>
             <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/SintaticoPascal.java</file>
+            <file>file:/C:/Users/Neto/Documents/NetBeansProjects/Compiladores/src/compiladores/DadoPilha.java</file>
         </group>
     </open-files>
 </project-private>

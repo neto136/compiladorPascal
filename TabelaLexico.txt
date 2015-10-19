@@ -23,58 +23,74 @@ var		Palavra reservada	5
 b		Identificador		5
 ,		Delimitador		5
 c		Identificador		5
+,		Delimitador		5
+z		Identificador		5
 :		Delimitador		5
-integer		Palavra reservada	5
+boolean		Palavra reservada	5
 ;		Delimitador		5
 begin		Palavra reservada	6
-b		Identificador		7
+a		Identificador		7
 :=		Atribuição		7
-x		Identificador		7
+a		Identificador		7
 +		Operador aditivo	7
-exemplo		Identificador		7
-end		Palavra reservada	8
-;		Delimitador		8
-procedure		Palavra reservada	10
-q		Identificador		10
-;		Delimitador		10
-var		Palavra reservada	11
-c		Identificador		11
-,		Delimitador		11
-d		Identificador		11
-:		Delimitador		11
-integer		Palavra reservada	11
+15.2		Número real		7
+;		Delimitador		7
+a		Identificador		8
+:=		Atribuição		8
+a		Identificador		8
++		Operador aditivo	8
+x		Identificador		8
++		Operador aditivo	8
+8.0		Número real		8
+-		Operador aditivo	8
+a		Identificador		8
+*		Operador multiplicativo	8
+12		Número inteiro		8
+end		Palavra reservada	9
+;		Delimitador		9
+procedure		Palavra reservada	11
+q		Identificador		11
 ;		Delimitador		11
-procedure		Palavra reservada	13
-r		Identificador		13
-(		Delimitador		13
-y		Identificador		13
-:		Delimitador		13
-real		Palavra reservada	13
-)		Delimitador		13
-;		Delimitador		13
-var		Palavra reservada	14
-e		Identificador		14
-,		Delimitador		14
-f		Identificador		14
+var		Palavra reservada	12
+c		Identificador		12
+,		Delimitador		12
+d		Identificador		12
+,		Delimitador		12
+r		Identificador		12
+:		Delimitador		12
+integer		Palavra reservada	12
+;		Delimitador		12
+procedure		Palavra reservada	14
+r		Identificador		14
+(		Delimitador		14
+y		Identificador		14
 :		Delimitador		14
-integer		Palavra reservada	14
+real		Palavra reservada	14
+)		Delimitador		14
 ;		Delimitador		14
-begin		Palavra reservada	15
-a		Identificador		16
-:=		Atribuição		16
-y		Identificador		16
-end		Palavra reservada	17
-;		Delimitador		17
-begin		Palavra reservada	19
-c		Identificador		20
-:=		Atribuição		20
-4		Número inteiro		20
-end		Palavra reservada	21
-;		Delimitador		21
-begin		Palavra reservada	23
-a		Identificador		24
-:=		Atribuição		24
-b		Identificador		24
-end		Palavra reservada	25
-.		Delimitador		25
+var		Palavra reservada	15
+e		Identificador		15
+,		Delimitador		15
+f		Identificador		15
+:		Delimitador		15
+integer		Palavra reservada	15
+;		Delimitador		15
+begin		Palavra reservada	16
+a		Identificador		17
+:=		Atribuição		17
+y		Identificador		17
+end		Palavra reservada	18
+;		Delimitador		18
+begin		Palavra reservada	20
+z		Identificador		21
+:=		Atribuição		21
+4		Número inteiro		21
+end		Palavra reservada	22
+;		Delimitador		22
+begin		Palavra reservada	24
+a		Identificador		25
+:=		Atribuição		25
+b		Identificador		25
+end		Palavra reservada	26
+.		Delimitador		26
 
